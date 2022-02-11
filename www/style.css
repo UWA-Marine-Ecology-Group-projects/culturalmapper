@@ -1,0 +1,23 @@
+.jstree li.jstree-open > a.jstree-anchor > i.jstree-checkbox,
+.jstree li.jstree-closed > a.jstree-anchor > i.jstree-checkbox { display:none; }
+
+.jstree-node .jstree-icon.jstree-ocl {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/32/32339.png');
+  background-size: 22px 22px;
+  background-position: center !important;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease;
+  background-color: "#e60022";
+  }
+  
+.jstree-node.jstree-open .jstree-icon.jstree-ocl {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/32/32320.png');
+  }
+  
+.jstree-node.jstree-closed .jstree-icon.jstree-ocl {
+  background-image: url('https://cdn-icons-png.flaticon.com/512/32/32339.png');
+  }
+
+.jstree-node.jstree-leaf > .jstree-icon.jstree-ocl {
+    display: none;
+}

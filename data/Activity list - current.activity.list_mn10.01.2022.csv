@@ -1,0 +1,91 @@
+Category,Sub category,Activity,Comments,cat_num,sub_num
+Recreational fishing,Boat - line fishing,"Nearshore and estuarine fish (e.g., whiting, herring)","Boat - line fishing - Nearshore and estuarine fish (e.g., whiting, herring)",1,1
+Recreational fishing,Boat - line fishing,Pelagic fish,Boat - line fishing - Pelagic fish,1,1
+Recreational fishing,Boat - line fishing,Demersal fish,Boat - line fishing - Demersal fish,1,1
+Recreational fishing,Boat - line fishing,Squid,Boat - line fishing - Squid,1,1
+Recreational fishing,Boat - scuba or freedive,Spear fishing,Boat - scuba or freedive - Spear fishing,1,2
+Recreational fishing,Boat - scuba or freedive,Rock lobster collection,Boat - scuba or freedive - Rock lobster collection,1,2
+Recreational fishing,Boat - scuba or freedive,Abalone collection,Boat - scuba or freedive - Abalone collection,1,2
+Recreational fishing,Boat - pots or nets,Rock lobster pots,Boat - pots or nets - Rock lobster pots,1,3
+Recreational fishing,Boat - pots or nets,Drop nets,Boat - pots or nets - Drop nets,1,3
+Recreational fishing,Boat - pots or nets,Octopus pots,Boat - pots or nets - Octopus pots,1,3
+Recreational fishing,Shore-based fishing,Jetty - Rod and line,Shore-based fishing - Jetty - Rod and line,1,4
+Recreational fishing,Shore-based fishing,Jetty - Drop nets,Shore-based fishing - Jetty - Drop nets,1,4
+Recreational fishing,Shore-based fishing,Rock - Rod and line,Shore-based fishing - Rock - Rod and line,1,4
+Recreational fishing,Shore-based fishing,Beach - Rod and line,Shore-based fishing - Beach - Rod and line,1,4
+Recreational fishing,Shore-based fishing,Abalone collection,Shore-based fishing - Abalone collection,1,4
+Recreational fishing,Shore-based fishing,Spear fishing,Shore-based fishing - Spear fishing,1,4
+Recreational fishing,Shore-based fishing,Rock lobster collection (scuba or freedive),Shore-based fishing - Rock lobster collection (scuba or freedive),1,4
+Recreation - non-fishing,Motorised water sports,Jet skiing,Motorised water sports - Jet skiing,2,1
+Recreation - non-fishing,Motorised water sports,Boating,Motorised water sports - Boating,2,1
+Recreation - non-fishing,Motorised water sports,Water skiing,Motorised water sports - Water skiing,2,1
+Recreation - non-fishing,Non-motorised water sports,Sailing,Non-motorised water sports - Sailing,2,2
+Recreation - non-fishing,Non-motorised water sports,Surfing or paddle boarding,Non-motorised water sports - Surfing or paddle boarding,2,2
+Recreation - non-fishing,Non-motorised water sports,Kayaking,Non-motorised water sports - Kayaking,2,2
+Recreation - non-fishing,Non-motorised water sports,Wind or kite surfing,Non-motorised water sports - Wind or kite surfing,2,2
+Recreation - non-fishing,Swimming or snorkeling or scuba,Swimming (shore),Swimming or snorkeling or scuba - Swimming (shore),2,3
+Recreation - non-fishing,Swimming or snorkeling or scuba,Swimming (boat),Swimming or snorkeling or scuba - Swimming (boat),2,3
+Recreation - non-fishing,Swimming or snorkeling or scuba,Snorkeling (shore),Swimming or snorkeling or scuba - Snorkeling (shore),2,3
+Recreation - non-fishing,Swimming or snorkeling or scuba,Snorkeling (boat),Swimming or snorkeling or scuba - Snorkeling (boat),2,3
+Recreation - non-fishing,Swimming or snorkeling or scuba,Scuba (shore),Swimming or snorkeling or scuba - Scuba (shore),2,3
+Recreation - non-fishing,Swimming or snorkeling or scuba,Scuba (boat),Swimming or snorkeling or scuba - Scuba (boat),2,3
+Recreation - non-fishing,Wildlife watching,Whale watching,Wildlife watching - Whale watching,2,4
+Recreation - non-fishing,Wildlife watching,Bird watching,Wildlife watching - Bird watching,2,4
+Recreation - non-fishing,Wildlife watching,Seal or sea lion watching,Wildlife watching - Seal or sea lion watching,2,4
+Recreation - non-fishing,Other shore or land-based activities,Off road vehicle,Other shore or land-based activities - Off road vehicle,2,5
+Recreation - non-fishing,Other shore or land-based activities,Horse riding,Other shore or land-based activities - Horse riding,2,5
+Recreation - non-fishing,Other shore or land-based activities,Walking or running,Other shore or land-based activities - Walking or running,2,5
+Recreation - non-fishing,Other shore or land-based activities,Beach combing,Other shore or land-based activities - Beach combing,2,5
+Recreation - non-fishing,Other shore or land-based activities,Dog walking,Other shore or land-based activities - Dog walking,2,5
+Recreation - non-fishing,Other shore or land-based activities,Photography,Other shore or land-based activities - Photography,2,5
+Commercial fishing,"Roes, Greenlip, Brownlip Abalone Fishery","Roes, Greenlip, Brownlip Abalone Fishery","Roes, Greenlip, Brownlip Abalone Fishery",3,1
+Commercial fishing,South Coast Crustacean Managed Fishery,South Coast Crustacean Managed Fishery,South Coast Crustacean Managed Fishery,3,2
+Commercial fishing,South Coast Estuarine Management Fishery,South Coast Estuarine Management Fishery,South Coast Estuarine Management Fishery,3,3
+Commercial fishing,South Coast Salmon Managed Fishery,South Coast Salmon Managed Fishery,South Coast Salmon Managed Fishery,3,4
+Commercial fishing,South Coast Purse Seine Managed Fishery,South Coast Purse Seine Managed Fishery,South Coast Purse Seine Managed Fishery,3,5
+Commercial fishing,Joint Authority Southern Demersal Gillnet and Demersal Longline Fishery,Joint Authority Southern Demersal Gillnet and Demersal Longline Fishery,Joint Authority Southern Demersal Gillnet and Demersal Longline Fishery,3,6
+Commercial fishing,Marine Aquarium Fish Managed Fishery (statewide),Marine Aquarium Fish Managed Fishery (statewide),Marine Aquarium Fish Managed Fishery (statewide),3,7
+Commercial fishing,Specimen Shell Managed Fishery (statewide),Specimen Shell Managed Fishery (statewide),Specimen Shell Managed Fishery (statewide),3,8
+Commercial fishing,Octopus Interim Managed Fishery,Trigger trap,Octopus Interim Managed Fishery - Trigger trap,3,9
+Commercial fishing,Octopus Interim Managed Fishery,Unbaited (shelter) pot,Octopus Interim Managed Fishery - Unbaited (shelter) pot,3,9
+Commercial fishing,Octopus Interim Managed Fishery,Lobster pot (bycatch),Octopus Interim Managed Fishery - Lobster pot (bycatch),3,9
+Commercial fishing,South Coast Trawl Fishery,South Coast Trawl Fishery,South Coast Trawl Fishery,3,10
+Commercial fishing,South Coast Line and Fish Trap Managed Fishery,Line,South Coast Line and Fish Trap Managed Fishery - Line,3,11
+Commercial fishing,South Coast Line and Fish Trap Managed Fishery,Fish trap,South Coast Line and Fish Trap Managed Fishery - Fish trap,3,11
+Commercial fishing,South Coast Nearshore Net Managed Fishery,South Coast Nearshore Net Managed Fishery,South Coast Nearshore Net Managed Fishery,3,12
+Commercial tour operator,Nature-based eco-tourism,Scenic site,Scenic site,4,1
+Commercial tour operator,Nature-based eco-tourism,Swimming,Swimming,4,1
+Commercial tour operator,Nature-based eco-tourism,Wildlife viewing,Wildlife viewing,4,1
+Commercial tour operator,Nature-based eco-tourism,Maritime heritage site,Maritime heritage site,4,1
+Commercial tour operator,Charter fishing,Fishing site,Fishing site,4,2
+Commercial tour operator,Anchorages and landings,Anchorage,Anchorage,4,3
+Commercial tour operator,Anchorages and landings,Beach landings,Beach landings,4,3
+Commercial tour operator,Anchorages and landings,Moorings,Moorings,4,3
+Commercial tour operator,Anchorages and landings,Fuel drop-offs,Fuel drop-offs,4,3
+Environmental activities,Education,School based monitoring,Education - School based monitoring,5,1
+Environmental activities,Science or research,Monitoring or field survey,Science or research - Monitoring or field survey,5,2
+Environmental activities,Science or research,Experiment or tagging,Science or research - Experiment or tagging,5,2
+Environmental activities,Science or research,Marine debris survey,Science or research - Marine debris survey,5,2
+Environmental activities,Volunteer on ground works,Community monitoring,Volunteer on ground works - Community monitoring,5,3
+Environmental activities,Volunteer on ground works,Weed control,Volunteer on ground works - Weed control,5,3
+Environmental activities,Volunteer on ground works,Beach clean up,Volunteer on ground works - Beach clean up,5,3
+Environmental activities,Volunteer on ground works,Marine debris survey,Volunteer on ground works - Marine debris survey,5,3
+Local knowledge,Unique or unusual feature,,Unique or unusual feature,6,1
+Local knowledge,Key or Iconic species,,Key or Iconic species,6,2
+Local knowledge,Rare or threatened species,,Rare or threatened species,6,3
+Local knowledge,Vulnerable habitat,,Vulnerable habitat,6,4
+Local knowledge,Aggregation area,,Aggregation area,6,5
+Local knowledge,Nursery or juvenile area,,Nursery or juvenile area,6,6
+Local knowledge,Nesting area,,Nesting area,6,7
+Local knowledge,"Breeding, mating or spawning area",,"Breeding, mating or spawning area",6,8
+Local knowledge,Resting or haul out area,,Resting or haul out area,6,9
+Local knowledge,Migratory species resting area,,Migratory species resting area,6,10
+Local knowledge,Natural or minimally disturbed area,,Natural or minimally disturbed area,6,11
+Local knowledge,Area with high habitat diversity,,Area with high habitat diversity,6,12
+Local knowledge,Important area for climate change resilience,,Important area for climate change resilience,6,13
+Local knowledge,Daily movement pathway (for shelter or feeding),,Daily movement pathway (for shelter or feeding),6,14
+Other,Other 1,,,7,1
+Other,Other 2,,,7,2
+Other,Other 3,,,7,3
+Other,Other 4,,,7,4
+Other,Other 5,,,7,5

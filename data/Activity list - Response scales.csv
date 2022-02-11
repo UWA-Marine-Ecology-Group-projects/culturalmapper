@@ -1,0 +1,36 @@
+scale.name,response.options
+residence,Australia
+residence,Overseas
+gender,Female
+gender,Male
+gender,Other
+age,0-17
+age,18-24
+age,25-34
+age,35-44
+age,45-54
+age,55-64
+age,65-75
+age,75+
+frequency,Haven't ever visited
+frequency,Once every 5+ years
+frequency,Once every 3 to 5 years
+frequency,Once every 1 to 2 years
+frequency,Once a year
+frequency,2 to 5 times a year
+frequency,More than 5 times a year
+frequency,On a weekly basis
+agree,1
+agree,2
+agree,3
+agree,4
+agree,5
+agree,6
+agree,7
+awareness,Not at all aware
+awareness,Slightly aware
+awareness,Somewhat aware
+awareness,Moderately aware
+awareness,Extremely aware
+yes.no,yes
+yes.no,no
