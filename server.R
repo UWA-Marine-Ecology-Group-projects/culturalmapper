@@ -1264,18 +1264,10 @@ server = function(input, output, session) {
         mutate(timezone = str_replace_all(Sys.timezone(), c("[^[:alnum:]]" = ".")))# %>% glimpse()
       
       # Write polygons to database ----
-      saveData(clicks, "polygons")
+      # saveData(clicks, "polygons")
 
-      # Write polygons to dropbox ----
-      # Write the data to a temporary file locally
-      filePath <- file.path(tempdir(), paste("polygons", fileName, sep = "_"))
-      write.csv(clicks,
-                filePath,
-                row.names = FALSE,
-                quote = TRUE)
-      
-      # Upload the file to Dropbox
-      drop_upload(filePath, path = outputpolygonsdir, dtoken = token)
+      write.csv(x = clicks, file = file.path(polygonsdir, paste("polygons", fileName, sep = "_")),
+                row.names = FALSE, quote = TRUE)
       
       # Get responses to all other questions - write to dropbox and googledrive ----
       fieldsAll <- c(fieldsAll)
@@ -1408,16 +1400,10 @@ server = function(input, output, session) {
       #           row.names = FALSE, quote = TRUE)
       
       # Write answers to database ----
-      saveData(data, "answers")
+      # saveData(data, "answers")
       
-      # Write answers to dropbox ----
-      # Write the data to a temporary file locally
-      filePath <-
-        file.path(tempdir(), paste("answers", fileName, sep = "_"))
-      write.csv(data, filePath, row.names = FALSE, quote = TRUE)
-      
-      # Upload the file to Dropbox
-      drop_upload(filePath, path = outputanswersdir, dtoken = token)
+      write.csv(x = data, file = file.path(answersdir, paste("answers", fileName, sep = "_")),
+                row.names = FALSE, quote = TRUE)
       
       # Create a bunch of empty dataframes so that the data will save even if these questions are skipped
       
@@ -1449,19 +1435,10 @@ server = function(input, output, session) {
         #glimpse()
 
       # Write answers to database ----
-      saveData(matrix.answers, "values")
+      # saveData(matrix.answers, "values")
       
-      # Write answers to dropbox ----
-      # Write the data to a temporary file locally
-      filePath <-
-        file.path(tempdir(), paste("values", fileName, sep = "_"))
-      write.csv(matrix.answers,
-                filePath,
-                row.names = FALSE,
-                quote = TRUE)
-      
-      # Upload the file to Dropbox
-      drop_upload(filePath, path = outputvaluesdir, dtoken = token)
+      write.csv(x = matrix.answers, file = file.path(valuesdir, paste("values", fileName, sep = "_")),
+                row.names = FALSE, quote = TRUE)
       
       shinyjs::runjs("swal.close();")
       
@@ -1485,20 +1462,6 @@ server = function(input, output, session) {
       )
       
       updateProgressBar(session, "progress", value = 100, total = 100)
-      
-      # append to googledrive ----
-      data.gs <- data %>% as.list() %>% data.frame()
-      sheet_append("1Rn5sCqNFWJIIecQ3vpfdh3znVP6M2fcM0__FLmtSI54", sheet = 1, data = data.gs)
-      
-      # append to googledrive ----
-      clicks.gs <- clicks %>% as.list() %>% data.frame()
-      sheet_append("1Rn5sCqNFWJIIecQ3vpfdh3znVP6M2fcM0__FLmtSI54", sheet = 2, data = clicks.gs)
-      
-      # append to googledrive ----
-      matrix.gs <- matrix.answers %>% as.list() %>% data.frame()
-      sheet_append("1Rn5sCqNFWJIIecQ3vpfdh3znVP6M2fcM0__FLmtSI54", sheet = 3, data = matrix.gs)
-      
-      # resetLoadingButton("submit")
       
       }
       

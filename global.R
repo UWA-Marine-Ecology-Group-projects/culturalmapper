@@ -38,44 +38,6 @@ library(ggplot2)
 library(dplyr) # load last to stop issues with plyr 
 library(profvis)
 
-# profvis(shiny::runApp())
-
-## Dropbox and Google drive Authentication ----
-# options(gargle_oauth_cache = "secrets") # designate project-specific cache
-# gargle::gargle_oauth_cache() # check
-# gs4_auth()
-# list.files(".secrets/")
-
-# token <- drop_auth(new_user = TRUE)
-# saveRDS(token, file = "secrets/droptoken.rds")
-
-gs4_auth(cache = "secrets", email = TRUE)
-
-token <- readRDS("secrets/droptoken.rds")
-drop_acc(dtoken = token) # Then pass the token to each drop_function
-
-# Mongo database ----
-load("secrets/host.rda")
-load("secrets/username.rda")
-load("secrets/password.rda")
-
-options(mongodb = list(
-  "host" = host,
-  "username" = username,
-  "password" = password
-))
-
-databaseName <- "responses"
-
-# directory where responses get stored in dropbox
-responsesDir <- file.path("responses")
-outputpolygonsdir <- "responses/polygons" 
-outputanswersdir <- "responses/answers" 
-outputvaluesdir <- "responses/values" 
-
-## Bookmarking ----
-# enableBookmarking(store = "server")
-
 ## Themes ----
 blank_theme <- theme_minimal()+
   theme(
@@ -86,6 +48,11 @@ blank_theme <- theme_minimal()+
     axis.ticks = element_blank(),
     plot.title=element_text(size=14, face="bold")
   )
+
+# Responses directory ----
+answersdir <- "responses/answers" 
+polygonsdir <- "responses/polygons" 
+valuesdir <- "responses/values" 
 
 ## Leaflet spinner ----
 options(spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size=2)
@@ -321,22 +288,6 @@ change_color <- function(map, id_to_remove, data, colour, new_group){
 randomID <- function(n = 1000000) {
   a <- do.call(paste0, replicate(10, sample(LETTERS, n, TRUE), FALSE))
   paste0(a, sprintf("%09d", sample(999999999, n, TRUE)), sample(LETTERS, n, TRUE))
-}
-
-saveData <- function(data, collection) {
-  # Connect to the database
-  db <- mongo(collection = collection,
-              url = sprintf(
-                "mongodb+srv://%s:%s@%s/%s",
-                options()$mongodb$username,
-                options()$mongodb$password,
-                options()$mongodb$host,
-                databaseName
-              ),
-              options = ssl_options(weak_cert_validation = TRUE))
-  # Insert the data into the mongo collection as a data.frame
-  # data <- as.data.frame(t(data))
-  db$insert(data)
 }
 
 # Functions to create mouseover lat and lon for leaflet maps ----
