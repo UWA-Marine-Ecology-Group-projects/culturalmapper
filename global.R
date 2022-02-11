@@ -50,9 +50,9 @@ blank_theme <- theme_minimal()+
   )
 
 # Responses directory ----
-answersdir <- "responses/answers" 
-polygonsdir <- "responses/polygons" 
-valuesdir <- "responses/values" 
+answersdir <- "responses" 
+polygonsdir <- "responses" 
+valuesdir <- "responses" 
 
 ## Leaflet spinner ----
 options(spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size=2)
