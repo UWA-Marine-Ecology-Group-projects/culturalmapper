@@ -1,0 +1,108 @@
+Category,Sub category,Activity,Comments,cat_num,sub_num
+Areas of culturally significant habitats and communities,Beaches,,Beaches,1,1
+Areas of culturally significant habitats and communities,Estuaries,,Estuaries,1,2
+Areas of culturally significant habitats and communities,Granite headlands,,Granite headlands,1,3
+Areas of culturally significant habitats and communities,Islands,,Islands,1,4
+Areas of culturally significant habitats and communities,Coastal sand dunes,,Coastal sand dunes,1,5
+Areas of culturally significant habitats and communities,Intertidal reefs,,Intertidal reefs,1,6
+Areas of culturally significant habitats and communities,Subtidal reefs,,subtidal reefs,1,7
+Areas of culturally significant habitats and communities,Freshwater places,Rivers,Freshwater places - Rivers,1,8
+Areas of culturally significant habitats and communities,Freshwater places,Creeks,Freshwater places - Creeks,1,8
+Areas of culturally significant habitats and communities,Freshwater places,Springs,Freshwater places - Springs,1,8
+Areas of culturally significant habitats and communities,Gnammas,,Gnammas,1,9
+Places for culturally significant animals,Whales and dolphins,Southern right whale,Whales and dolphins - Southern right whale,2,1
+Places for culturally significant animals,Whales and dolphins,Orcas,Whales and dolphins - Orcas,2,1
+Places for culturally significant animals,Whales and dolphins,Other whales,Whales and dolphins - Other whales,2,1
+Places for culturally significant animals,Whales and dolphins,Dolphins,Whales and dolphins - Dolphins,2,1
+Places for culturally significant animals,Seals and sea lions,Australian sea lion,Seals and sea lions - Australian sea lion,2,2
+Places for culturally significant animals,Seals and sea lions,New Zealand fur seal,Seals and sea lions - New Zealand fur seal,2,2
+Places for culturally significant animals,Seals and sea lions,Long-nosed fur seal,Seals and sea lions - Long-nosed fur seal,2,2
+Places for culturally significant animals,Sharks and rays,Great white shark,Sharks and rays - Great white shark,2,3
+Places for culturally significant animals,Sharks and rays,Tiger shark,Sharks and rays - Tiger shark,2,3
+Places for culturally significant animals,Sharks and rays,Bronze whaler,Sharks and rays - Bronze Whaler,2,3
+Places for culturally significant animals,Sharks and rays,Rays,Sharks and rays - Rays,2,3
+Places for culturally significant animals,Finfish,Salmon,Finfish - Salmon,2,4
+Places for culturally significant animals,Finfish,Mullet,Finfish - Mullet,2,4
+Places for culturally significant animals,Finfish,Groper,Finfish - Groper,2,4
+Places for culturally significant animals,Finfish,Snapper,Finfish - Snapper,2,4
+Places for culturally significant animals,Finfish,Bream,Finfish - Bream,2,4
+Places for culturally significant animals,Finfish,"Seadragons (Leafy, weedy, ruby)","Finfish - Seadragons (Leafy, weedy, ruby)",2,4
+Places for culturally significant animals,Shellfish and molluscs,Squid,Shellfish and molluscs - Squid,2,5
+Places for culturally significant animals,Shellfish and molluscs,Abalone,Shellfish and molluscs - Abalone,2,5
+Places for culturally significant animals,Shellfish and molluscs,Pipis,Shellfish and molluscs - Pipis,2,5
+Places for culturally significant animals,Seabirds and shorebirds,Sea eagle,Seabirds and shorebirds - Sea eagle,2,6
+Places for culturally significant animals,Seabirds and shorebirds,Wedge-tailed eagle,Seabirds and shorebirds - Wedge-tailed eagle,2,6
+Places for culturally significant animals,Seabirds and shorebirds,Penguin,Seabirds and shorebirds - Penguin,2,6
+Places for culturally significant animals,Seabirds and shorebirds,Shearwaters (flesh-footed and short-tail),Seabirds and shorebirds - Shearwaters (flesh-footed and short-tail),2,6
+Places for culturally significant animals,Seabirds and shorebirds,Gnow (malleefowl),Seabirds and shorebirds - Gnow (malleefowl),2,6
+Places for culturally significant animals,Seabirds and shorebirds,Australasian Bittern,Seabirds and shorebirds - Australasian Bittern,2,6
+Places for culturally significant animals,Seabirds and shorebirds,Migratory birds,Seabirds and shorebirds - Migratory birds,2,6
+Places important for customary activities,Hunting ground,,Hunting ground,3,1
+Places important for customary activities,Fishing area,,Fishing area,3,2
+Places important for customary activities,Area for preparing and consuming food,,Area for preparing and consuming food,3,3
+Places important for customary activities,"Area for harvesting plants, seeds and fruits",,"Area for harvesting plants, seeds and fruits",3,4
+Places important for customary activities,Area for preparing medicine,,Area for preparing medicine,3,5
+Places important for customary activities,Area for using 'right way' fire or cultural burning,,Area for using 'right way' fire or cultural burning,3,6
+Places important for customary activities,Area for collecting water,,Area for collecting water,3,7
+Places important for customary activities,Area for ceremonies and passing on traditional knowledge,,Area for ceremonies and passing on traditional knowledge,3,8
+Places important for customary activities,Area visited to keep country healthy,,Area visited to keep country healthy,3,9
+Places important for customary activities,Estuarine/creek system traditionally opened (sand bar removed) to enable tidal flushing,,,3,10
+Places important for customary activities,Research or monitoring site,,Research or monitoring site,3,11
+Culturally significant sites,Stone arrangements,,Stone arrangements,4,1
+Culturally significant sites,Fish traps,,Fish traps,4,2
+Culturally significant sites,Middens,,Middens,4,3
+Culturally significant sites,Camping areas,,Camping areas,4,4
+Culturally significant sites,Caves,,Caves,4,5
+Culturally significant sites,Rock art/art galleries/paintings,,Rock art/art galleries/paintings,4,6
+Culturally significant sites,Freshwater source,,Freshwater source,4,7
+Culturally significant sites,Scatters/tools/quarries,,Scatters/tools/quarries,4,8
+Culturally significant sites,Carving site,,Carving site,4,9
+Culturally significant sites,Ochre site,,Ochre site,4,10
+Culturally significant sites,Historical living areas,,Historical living areas,4,11
+Culturally significant sites,Historical employment area,,Historical employment area,4,12
+Culturally significant sites,Sad places (areas where people have died or been removed),,Sad places (areas where people have died or been removed),4,13
+Culturally significant sites,Burial sites,,Burial sites,4,14
+"Other places with connections to country, knowledge and culture",Meeting place,,Meeting place,5,1
+"Other places with connections to country, knowledge and culture",Ceremonial site,,Ceremonial site,5,2
+"Other places with connections to country, knowledge and culture",Men's site,,Men's site,5,3
+"Other places with connections to country, knowledge and culture",Women's site,,Women's site,5,4
+"Other places with connections to country, knowledge and culture",Dreaming site,,Dreaming site,5,5
+"Other places with connections to country, knowledge and culture",Song lines,,Song lines,5,6
+"Other places with connections to country, knowledge and culture",Cultural corridor,,Cultural corridor,5,7
+"Other places with connections to country, knowledge and culture",Mythological site/story,,Mythological site/story,5,8
+"Other places with connections to country, knowledge and culture",Landscape features,,Landscape features,5,9
+"Areas where there are specific cultural laws, lore and protocols",Areas that have access restrictions,,Areas that have access restrictions,6,1
+"Areas where there are specific cultural laws, lore and protocols",Areas where take of a particular plant or animal is restricted or prohibited,,Areas where take of a particular plant or animal is restricted or prohibited,6,2
+"Areas where there are specific cultural laws, lore and protocols",Areas where there is an issue of visitor safety or risk,,Areas where there is an issue of visitor safety or risk,6,3
+"Areas where there are specific cultural laws, lore and protocols",Areas for initiation ceremonies,,Areas for initiation ceremonies,6,4
+Other,Other 1,,Other 1,7,1
+Other,Other 2,,Other 2,7,2
+Other,Other 3,,Other 3,7,3
+Other,Other 4,,Other 4,7,4
+Other,Other 5,,Other 5,7,5
+Pressures and threats,Dieback,,Dieback,8,1
+Pressures and threats,Coastal erosion,,Coastal erosion,8,2
+Pressures and threats,Development,,Development,8,3
+Pressures and threats,Climate change,,Climate change,8,4
+Pressures and threats,Off Road Vehicles (e.g. 4WD),Innapropriate access or use,Off Road Vehicles (e.g. 4WD) - Innapropriate access or use,8,5
+Pressures and threats,Off Road Vehicles (e.g. 4WD),Damage caused (e.g tracks),Off Road Vehicles (e.g. 4WD) - Damage caused (e.g tracks),8,5
+Pressures and threats,Wildfire,,Wildfire,8,6
+Pressures and threats,Weeds,,Weeds,8,7
+Pressures and threats,Rubbish - land based,Litter,Rubbish - land based - Litter,8,8
+Pressures and threats,Rubbish - marine based,Nets and/or floats,Rubbish - marine based - Nets and/or floats,8,9
+Pressures and threats,Rubbish - marine based,Fishing tackle and bait bags,Rubbish - marine based - fishing tackle and bait bags,8,9
+Pressures and threats,Inappropriate visitation,Culturally innappropriate/disrespectful visitation,Inappropriate visitation - Culturally innappropriate/disrespectful visitation,8,10
+Pressures and threats,Inappropriate visitation,Physical damage to areas,Inappropriate visitation - Physical damage to areas,8,10
+Pressures and threats,Inappropriate visitation,Graffiti,Inappropriate visitation - Graffiti,8,10
+Pressures and threats,Inappropriate visitation,Trampling,Inappropriate visitation - Trampling,8,10
+Pressures and threats,Inappropriate visitation,Camping in unsuitable places,Inappropriate visitation - Camping in unsuitable places,8,10
+Pressures and threats,Inappropriate visitation,Disturbing wildlife,Inappropriate visitation - Disturbing wildlife,8,10
+Pressures and threats,Water pollution - land based,Run-off from urban areas or farms,Water pollution - land based - Run-off from urban areas or farms,8,11
+Pressures and threats,Water pollution - marine based,Fuel and oil,Water pollution - marine based - Fuel and oil,8,12
+Pressures and threats,Water pollution - marine based,Sewage,Water pollution - marine based - Sewage,8,12
+Pressures and threats,Water pollution - marine based,Anti-fouling paint and other chemicals,Water pollution - marine based - Anti-fouling paint and other chemicals,8,12
+Pressures and threats,Over-fishing,,Over-fishing,8,13
+Pressures and threats,Boating,Anchoring/propellor scour damage,Boating - Anchoring/propellor scour damage,8,14
+Pressures and threats,Boating,Speed/wake wash damage,Boating - Speed/wake wash damage,8,14
+Pressures and threats,Boating,Disturbing wildlife,Boating - Disturbing wildlife,8,14
+Pressures and threats,Boating,Boat strike to animals,Boating - Boat strike to animals,8,14

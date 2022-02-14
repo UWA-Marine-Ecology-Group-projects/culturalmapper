@@ -57,9 +57,60 @@ valuesdir <- "responses"
 ## Leaflet spinner ----
 options(spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size=2)
 
-## Read in activity list (downloaded from Googledrive) ----
-activities <- read.csv("data/Activity list - current.activity.list_mn10.01.2022.csv", na.strings=c("","NA"))%>%
+## Read in cultural list (downloaded from Googledrive) ----
+cultural_values <- read.csv("data/Activity list - cultural-values.csv", na.strings=c("","NA")) %>%
   select(-c(Comments))
+
+# Create a list of inputs for each value selected ----
+cultural_list <- cultural_values %>%
+  dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
+  dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_","__" = "_", "\\_$" = ""))) %>%
+  dplyr::mutate(Activity = stringr::str_replace_all(.$Activity, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
+  tidyr::replace_na(list(c(Category = "NA"))) %>%
+  dplyr::mutate(input.suffix = paste(Category, Sub.category, Activity, sep = "__")) %>%
+  dplyr::mutate(input.suffix = tolower(input.suffix)) %>%
+  dplyr::mutate(days = paste("days__value",input.suffix, sep = "__")) %>%
+  dplyr::mutate(time = paste("time__value",input.suffix, sep = "__")) %>%
+  dplyr::mutate(description = paste("description__value",input.suffix, sep = "__"))
+
+days_inputs <- (unique(cultural_list$days))
+time_inputs <- (unique(cultural_list$time))
+description_inputs <- (unique(cultural_list$description))
+
+cultural_input_list <- c(days_inputs, time_inputs, description_inputs)
+
+# Create a list of the subcategories for the accordion ----
+cultural_acc <- cultural_values %>%
+  dplyr::mutate(nice.title = paste(Category, Sub.category,Activity, sep = " - "),
+                nice.cat = Category,
+                nice.sub = Sub.category,
+                nice.act = Activity) %>%
+  dplyr::filter(!Category %in% c("Pressures and threats", "Other")) %>%
+  dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
+  dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
+  dplyr::mutate(Activity = stringr::str_replace_all(.$Activity, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
+  dplyr::mutate(checkbox = paste("checkbox_", Category, "__", Sub.category, sep = "")) %>%
+  glimpse()
+
+other_acc <- activities %>%
+  dplyr::mutate(nice.title = paste(Category, Sub.category, sep = " - "),
+                nice.cat = Category,
+                nice.act = Sub.category) %>%
+  dplyr::filter(Category %in% c("Other")) %>%
+  dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
+  dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
+  dplyr::mutate(checkbox = paste("checkbox_", Category, sep = "")) %>%
+  glimpse()
+
+pressures_acc <- activities %>%
+  dplyr::mutate(nice.title = paste(Category, Sub.category, sep = " - "),
+                nice.cat = Category,
+                nice.act = Sub.category) %>%
+  dplyr::filter(Category %in% c("Pressures and threats")) %>%
+  dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
+  dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
+  dplyr::mutate(checkbox = paste("checkbox_", Category, sep = "")) %>%
+  glimpse()
 
 ## Read in response scales ----
 response.scales <- read.csv("data/Activity list - Response scales.csv", na.strings=c("","NA"))
@@ -75,69 +126,6 @@ matrix.data <- questions %>%
 
 # Group responses into a list for matrix
 matrix.questions <- rrapply(cbind(matrix.data), how = "unmelt")
-
-# Create a list of inputs for each activity selected ----
-activity.list <- activities %>%
-  dplyr::filter(!Category %in% c("Local knowledge")) %>%
-  dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_","__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(Activity = stringr::str_replace_all(.$Activity, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  tidyr::replace_na(list(c(Category = "NA"))) %>%
-  dplyr::mutate(input.suffix = paste(Category, Sub.category, Activity, sep = "__")) %>%
-  dplyr::mutate(input.suffix = tolower(input.suffix)) %>%
-  dplyr::mutate(days = paste("days__activity",input.suffix, sep = "__")) %>%
-  dplyr::mutate(time = paste("time__activity",input.suffix, sep = "__")) %>%
-  dplyr::mutate(description = paste("description__activity",input.suffix, sep = "__"))
-
-days.inputs <- (unique(activity.list$days))
-time.inputs <- (unique(activity.list$time))
-description.inputs <- (unique(activity.list$description))
-
-activity.input.list <- c(days.inputs, time.inputs, description.inputs)
-
-# Create a list of inputs for each values selected ----
-values.list <- activities %>%
-  dplyr::filter(Category %in% c("Local knowledge")) %>%
-  dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(input.suffix = paste(Category, Sub.category, sep = "__")) %>%
-  dplyr::mutate(input.suffix = tolower(input.suffix)) %>%
-  dplyr::mutate(description = paste("description__values",input.suffix, sep = "__"))
-  
-values.input.list <- (unique(values.list$description))
-
-# Create a list of the subcategories for the accordion ----
-activity.acc <- activities %>%
-  dplyr::mutate(nice.title = paste(Category, Sub.category,Activity, sep = " - "),
-                nice.cat = Category,
-                nice.sub = Sub.category,
-                nice.act = Activity) %>%
-  dplyr::filter(!Category %in% c("Local knowledge", "Other")) %>%
-  dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(Activity = stringr::str_replace_all(.$Activity, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(checkbox = paste("checkbox_", Category, "__", Sub.category, sep = "")) %>%
-  glimpse()
-
-other.acc <- activities %>%
-  dplyr::mutate(nice.title = paste(Category, Sub.category, sep = " - "),
-                nice.cat = Category,
-                nice.act = Sub.category) %>%
-  dplyr::filter(Category %in% c("Other")) %>%
-  dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(checkbox = paste("checkbox_", Category, sep = "")) %>%
-  glimpse()
-
-values.acc <- activities %>%
-  dplyr::mutate(nice.title = paste(Category, Sub.category, sep = " - "),
-                nice.cat = Category,
-                nice.act = Sub.category) %>%
-  dplyr::filter(Category %in% c("Local knowledge")) %>%
-  dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(checkbox = paste("checkbox_", Category, sep = "")) %>%
-  glimpse()
 
 # grid.2.5 <- readOGR(dsn="spatial/intersections/2.5 km_whole hexagons_regions.shp", layer="2.5 km_whole hexagons_regions")
 # save(grid.2.5, file = "spatial/intersections/grid.2.5.rda")
@@ -242,7 +230,7 @@ regpal <- colorFactor(palette = c("#F83D41","#FD5E53","#FFAE41","#FF9506","#FF5E
 # "ESP" - green - 3
 
 # which fields get saved ----
-fieldsAll <- c("name", "email", "phone", "residence","postcode", "gender", "age", "frequency", activity.input.list, values.input.list, "visited")
+fieldsAll <- c("name", "email", "phone", "residence","postcode", "gender", "age", "frequency", cultural_input_list, "visited")
 
 # which fields are mandatory ----
 fieldsMandatory <- c("name", "email", "phone", "residence", "gender", "age")

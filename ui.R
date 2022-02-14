@@ -281,104 +281,93 @@ html, body, .test_map_div {
                                   br(),
                                   h2("Which activities would you like to map?"),
                                   # Activity 1 ----
-                                  accordion(id = "id-accordiona1",
+                                  accordion(id = "id-accordion1",
                                             accordionItem(
-                                              id = "accordionact1",
-                                              title =  unique(filter(activity.acc, cat_num %in% c("1"))$nice.cat),
+                                              id = "accordion1",
+                                              title =  unique(filter(cultural_acc, cat_num %in% c("1"))$nice.cat),
                                               solidHeader = TRUE, status = "primary",
                                               do.call(accordion, c(list(id = "id-accordion1"), 
-                                                                   lapply(seq_along(unique(filter(activity.acc, cat_num %in% c("1"))$Sub.category)), function(x){
+                                                                   lapply(seq_along(unique(filter(cultural_acc, cat_num %in% c("1"))$Sub.category)), function(x){
                                                                      accordionItem(
-                                                                       title = paste0(unique(filter(activity.acc, cat_num %in% c("1"))$nice.sub)[x]),
+                                                                       title = paste0(unique(filter(cultural_acc, cat_num %in% c("1"))$nice.sub)[x]),
                                                                        checkboxGroupInput(paste0("checkbox_",
-                                                                                                 unique(activity.acc$Category)[1], "__",
-                                                                                                 unique(filter(activity.acc, cat_num %in% c("1"))$Sub.category)[x]),
+                                                                                                 unique(cultural_acc$Category)[1], "__",
+                                                                                                 unique(filter(cultural_acc, cat_num %in% c("1"))$Sub.category)[x]),
                                                                                           label = NULL,
-                                                                                          choices = (filter(activity.acc, cat_num == "1" & sub_num ==x)$nice.act),
+                                                                                          choices = (filter(cultural_acc, cat_num == "1" & sub_num ==x)$nice.act),
                                                                                           selected = character(0))
                                                                      )
                                                                    })))
                                             )),
                                   
                                   # Activity 2 ----
-                                  accordion(id = "id-accordiona2",
+                                  accordion(id = "id-accordion2",
                                             accordionItem(
-                                              id = "accordionact2",
-                                              title =  unique(filter(activity.acc, cat_num %in% c("2"))$nice.cat),
+                                              id = "accordion2",
+                                              title =  unique(filter(cultural_acc, cat_num %in% c("2"))$nice.cat),
                                               solidHeader = TRUE, status = "primary",
                                               do.call(accordion, c(list(id = "id-accordion2"), 
-                                                                   lapply(seq_along(unique(filter(activity.acc, cat_num %in% c("2"))$Sub.category)), function(x){
+                                                                   lapply(seq_along(unique(filter(cultural_acc, cat_num %in% c("2"))$Sub.category)), function(x){
                                                                      accordionItem(
-                                                                       title = paste0(unique(filter(activity.acc, cat_num %in% c("2"))$nice.sub)[x]),
+                                                                       title = paste0(unique(filter(cultural_acc, cat_num %in% c("2"))$nice.sub)[x]),
                                                                        checkboxGroupInput(paste0("checkbox_",
-                                                                                                 unique(activity.acc$Category)[2], "__",
-                                                                                                 unique(filter(activity.acc, cat_num %in% c("2"))$Sub.category)[x]),
+                                                                                                 unique(cultural_acc$Category)[2], "__",
+                                                                                                 unique(filter(cultural_acc, cat_num %in% c("2"))$Sub.category)[x]),
                                                                                           label = NULL,
-                                                                                          choices = (filter(activity.acc, cat_num == "2" & sub_num ==x)$nice.act),
+                                                                                          choices = (filter(cultural_acc, cat_num == "2" & sub_num ==x)$nice.act),
                                                                                           selected = character(0))
                                                                      )
                                                                    })))
                                             )),
                                   
                                   # Activity 3 ----
-                                  accordion(id = "id-accordiona3",
-                                            accordionItem(
-                                              id = "accordionact3",
-                                              title =  unique(filter(activity.acc, cat_num %in% c("3"))$nice.cat),
-                                              solidHeader = TRUE, status = "primary",
-                                              do.call(accordion, c(list(id = "id-accordion3"), 
-                                                                   lapply(seq_along(unique(filter(activity.acc, cat_num %in% c("3"))$Sub.category)), function(x){
-                                                                     accordionItem(
-                                                                       title = paste0(unique(filter(activity.acc, cat_num %in% c("3"))$nice.sub)[x]),
-                                                                       checkboxGroupInput(paste0("checkbox_",
-                                                                                                 unique(activity.acc$Category)[3], "__",
-                                                                                                 unique(filter(activity.acc, cat_num %in% c("3"))$Sub.category)[x]),
-                                                                                          label = NULL,
-                                                                                          choices = (filter(activity.acc, cat_num == "3" & sub_num ==x)$nice.act),
-                                                                                          selected = character(0))
-                                                                     )
-                                                                   })))
-                                            )),
+                                  accordion(id = "id-accordion3",                                            accordionItem(
+                                    id = "accordion3",
+                                    title = unique(filter(cultural_acc, cat_num %in% c("3"))$nice.cat),
+                                    solidHeader = TRUE, status = "primary",
+                                    checkboxGroupInput(paste0("checkbox_",
+                                                              unique(filter(cultural_acc, cat_num %in% c("3"))$Category)),
+                                                       label = NULL,
+                                                       choices = unique(filter(cultural_acc, cat_num %in% c("3"))$nice.sub),
+                                                       selected = character(0))
+                                  )),
                                   
                                   # Activity 4 ----
-                                  accordion(id = "id-accordiona4",
-                                            accordionItem(
-                                              id = "accordionact4",
-                                              title =  unique(filter(activity.acc, cat_num %in% c("4"))$nice.cat),
-                                              solidHeader = TRUE, status = "primary",
-                                              do.call(accordion, c(list(id = "id-accordion4"), 
-                                                                   lapply(seq_along(unique(filter(activity.acc, cat_num %in% c("4"))$Sub.category)), function(x){
-                                                                     accordionItem(
-                                                                       title = paste0(unique(filter(activity.acc, cat_num %in% c("4"))$nice.sub)[x]),
-                                                                       checkboxGroupInput(paste0("checkbox_",
-                                                                                                 unique(activity.acc$Category)[4], "__",
-                                                                                                 unique(filter(activity.acc, cat_num %in% c("4"))$Sub.category)[x]),
-                                                                                          label = NULL,
-                                                                                          choices = (filter(activity.acc, cat_num == "4" & sub_num ==x)$nice.act),
-                                                                                          selected = character(0))
-                                                                     )
-                                                                   })))
-                                            )),
+                                  accordion(id = "id-accordion4",                                            accordionItem(
+                                    id = "accordion4",
+                                    title = unique(filter(cultural_acc, cat_num %in% c("4"))$nice.cat),
+                                    solidHeader = TRUE, status = "primary",
+                                    checkboxGroupInput(paste0("checkbox_",
+                                                              unique(filter(cultural_acc, cat_num %in% c("4"))$Category)),
+                                                       label = NULL,
+                                                       choices = unique(filter(cultural_acc, cat_num %in% c("4"))$nice.sub),
+                                                       selected = character(0))
+                                  )),
+                                  
                                   
                                   # Activity 5 ----
-                                  accordion(id = "id-accordiona5",
-                                            accordionItem(
-                                              id = "accordionact5",
-                                              title =  unique(filter(activity.acc, cat_num %in% c("5"))$nice.cat),
-                                              solidHeader = TRUE, status = "primary",
-                                              do.call(accordion, c(list(id = "id-accordion5"), 
-                                                                   lapply(seq_along(unique(filter(activity.acc, cat_num %in% c("5"))$Sub.category)), function(x){
-                                                                     accordionItem(
-                                                                       title = paste0(unique(filter(activity.acc, cat_num %in% c("5"))$nice.sub)[x]),
-                                                                       checkboxGroupInput(paste0("checkbox_",
-                                                                                                 unique(activity.acc$Category)[5], "__",
-                                                                                                 unique(filter(activity.acc, cat_num %in% c("5"))$Sub.category)[x]),
-                                                                                          label = NULL,
-                                                                                          choices = (filter(activity.acc, cat_num == "5" & sub_num ==x)$nice.act),
-                                                                                          selected = character(0))
-                                                                     )
-                                                                   })))
-                                            )),
+                                  accordion(id = "id-accordion5",                                            accordionItem(
+                                    id = "accordion5",
+                                    title = unique(filter(cultural_acc, cat_num %in% c("5"))$nice.cat),
+                                    solidHeader = TRUE, status = "primary",
+                                    checkboxGroupInput(paste0("checkbox_",
+                                                              unique(filter(cultural_acc, cat_num %in% c("5"))$Category)),
+                                                       label = NULL,
+                                                       choices = unique(filter(cultural_acc, cat_num %in% c("5"))$nice.sub),
+                                                       selected = character(0))
+                                  )),
+                                  
+                                  # Activity 6 ----
+                                  accordion(id = "id-accordion6",                                            accordionItem(
+                                    id = "accordion6",
+                                    title = unique(filter(cultural_acc, cat_num %in% c("6"))$nice.cat),
+                                    solidHeader = TRUE, status = "primary",
+                                    checkboxGroupInput(paste0("checkbox_",
+                                                              unique(filter(cultural_acc, cat_num %in% c("6"))$Category)),
+                                                       label = NULL,
+                                                       choices = unique(filter(cultural_acc, cat_num %in% c("6"))$nice.sub),
+                                                       selected = character(0))
+                                  )),
                                   
                                   br(),
                                   br(),
@@ -397,34 +386,31 @@ html, body, .test_map_div {
                                   br(),
                                   br(),
                                   
-                                  # Values ----
-                                  h2("Which local knowledge topics would you like to map?"),
-                                  accordion(id = "id-accordionv1",
-                                            accordionItem(
-                                              id = "accordionvalues",
-                                              title = unique(values.acc$nice.cat),
-                                              solidHeader = TRUE, status = "primary",
-                                              checkboxGroupInput(paste0("checkbox_",
-                                                                        unique(values.acc$Category)),
-                                                                 label = NULL,
-                                                                 choices = unique(values.acc$nice.act),
-                                                                 selected = character(0))
-                                            )),
-                                  br(),
-                                  br(),
-                                  br(),
-                                  br(),
                                   # Other activities ----
                                   h2("Use an “other” option if you would like to map anything not listed above. You will be asked to describe the activity or knowledge on the next page."),
                                   accordion(id = "id-accordiono1",
                                             accordionItem(
                                               id = "accordionother",
-                                              title = unique(other.acc$nice.cat),
+                                              title = unique(other_acc$nice.cat),
                                               solidHeader = TRUE, status = "primary",
                                               checkboxGroupInput(paste0("checkbox_",
-                                                                        unique(other.acc$Category)),
+                                                                        unique(other_acc$Category)),
                                                                  label = NULL,
-                                                                 choices = unique(other.acc$nice.act),
+                                                                 choices = unique(other_acc$nice.act),
+                                                                 selected = character(0))
+                                            )),
+                                  
+                                  # Other activities ----
+                                  h2(""),
+                                  accordion(id = "id-accordionp1",
+                                            accordionItem(
+                                              id = "accordionpressures",
+                                              title = unique(pressures_acc$nice.cat),
+                                              solidHeader = TRUE, status = "primary",
+                                              checkboxGroupInput(paste0("checkbox_",
+                                                                        unique(pressures_acc$Category)),
+                                                                 label = NULL,
+                                                                 choices = unique(pressures_acc$nice.act),
                                                                  selected = character(0))
                                             )),
                                   br(),
