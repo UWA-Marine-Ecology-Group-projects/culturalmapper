@@ -11,6 +11,8 @@ server = function(input, output, session) {
     session$close()
   })
   
+  addResourcePath("mytiles", "C:/GitHub/culturalmapper/mapTiles/OSM")
+  
   # Show the shiny modal on start up with welcome info ----
   showModal(
     modalDialog(
@@ -355,7 +357,8 @@ server = function(input, output, session) {
       leaflet(
         padding = 500,
         options = leafletOptions(zoomControl = TRUE, dragging = TRUE)) %>%
-        addTiles() %>% 
+        #addTiles() %>% 
+        addTiles(urlTemplate = "/mytiles/{z}_{x}_{y}.png", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
         fitBounds(regionbounds[1], regionbounds[2], regionbounds[3], -32.5) %>%
         addPolygons(
           data = regions,
@@ -639,13 +642,14 @@ server = function(input, output, session) {
             ) %>%
               # suspendScroll(hoverToWake = TRUE, wakeTime = 900, sleepTime = 800, wakeMessage = "Hover or click to wake") %>%
               addmouselatlon() %>%
-              addProviderTiles(
-                'Esri.WorldImagery',
-                group = "World Imagery",
-                options = providerTileOptions(minZoom = 8, maxZoom = 14)
-              ) %>%
-              addTiles(group = "Open Street Map",
-                       options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>% 
+              # addProviderTiles(
+              #   'Esri.WorldImagery',
+              #   group = "World Imagery",
+              #   options = providerTileOptions(minZoom = 8, maxZoom = 14)
+              # ) %>%
+              # addTiles(group = "Open Street Map",
+              #          options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>% 
+              addTiles(urlTemplate = "/mytiles/{z}_{x}_{y}.png", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
 
               fitBounds(bounds[1], bounds[2], bounds[3], bounds[4]) %>%
               
@@ -726,8 +730,9 @@ server = function(input, output, session) {
               options = leafletOptions(zoomControl = TRUE, dragging = TRUE)
             ) %>%
               addmouselatlon() %>%
-              addProviderTiles('Esri.WorldImagery', group = "World Imagery") %>%
-              addTiles() %>% #group = "Open Street Map"
+              # addProviderTiles('Esri.WorldImagery', group = "World Imagery") %>%
+              # addTiles() %>% #group = "Open Street Map"
+              addTiles(urlTemplate = "/mytiles/{z}_{x}_{y}.png", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
               fitBounds(bounds[1], bounds[2], bounds[3], bounds[4]) %>%
               
               addMapPane("bathymetry", zIndex = 400) %>%
