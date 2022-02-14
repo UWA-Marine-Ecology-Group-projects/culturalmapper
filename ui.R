@@ -274,7 +274,7 @@ html, body, .test_map_div {
                          tabPanel("Values mapping",
                                   h1("Values mapping"),
                                   br(),
-                                  h2("In which areas would you like to map your use or local knowledge? Please select", tags$strong("all"), "of the areas where you wish to provide information."),
+                                  h2("In which areas would you like to map knowledge of cultural values or the pressures and threats to cultural values", tags$strong("all"), "of the areas where you wish to provide information."),
                                   # h2("Please select", strong("all"), "of the areas where you wish to provide information"),
                                   withSpinner(leafletOutput("regionsmap", height = 500, width = "94%"), type = 3),
                                   br(),
