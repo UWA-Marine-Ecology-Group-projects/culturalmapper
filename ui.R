@@ -279,14 +279,14 @@ html, body, .test_map_div {
                                   withSpinner(leafletOutput("regionsmap", height = 500, width = "94%"), type = 3),
                                   br(),
                                   br(),
-                                  h2("Which activities would you like to map?"),
+                                  h2("Which cultural values would you like to map?"),
                                   # Activity 1 ----
                                   accordion(id = "id-accordion1",
                                             accordionItem(
                                               id = "accordion1",
                                               title =  unique(filter(cultural_acc, cat_num %in% c("1"))$nice.cat),
                                               solidHeader = TRUE, status = "primary",
-                                              do.call(accordion, c(list(id = "id-accordion1"), 
+                                              do.call(accordion, c(list(id = "id-accordionv1"), 
                                                                    lapply(seq_along(unique(filter(cultural_acc, cat_num %in% c("1"))$Sub.category)), function(x){
                                                                      accordionItem(
                                                                        title = paste0(unique(filter(cultural_acc, cat_num %in% c("1"))$nice.sub)[x]),
@@ -306,7 +306,7 @@ html, body, .test_map_div {
                                               id = "accordion2",
                                               title =  unique(filter(cultural_acc, cat_num %in% c("2"))$nice.cat),
                                               solidHeader = TRUE, status = "primary",
-                                              do.call(accordion, c(list(id = "id-accordion2"), 
+                                              do.call(accordion, c(list(id = "id-accordionv2"), 
                                                                    lapply(seq_along(unique(filter(cultural_acc, cat_num %in% c("2"))$Sub.category)), function(x){
                                                                      accordionItem(
                                                                        title = paste0(unique(filter(cultural_acc, cat_num %in% c("2"))$nice.sub)[x]),
@@ -387,8 +387,8 @@ html, body, .test_map_div {
                                   br(),
                                   
                                   # Other activities ----
-                                  h2("Use an “other” option if you would like to map anything not listed above. You will be asked to describe the activity or knowledge on the next page."),
-                                  accordion(id = "id-accordiono1",
+                                  h2("Use an other option if you would like to map anything not listed above. You will be asked to describe the activity or knowledge on the next page."),
+                                  accordion(id = "id-accordion7",
                                             accordionItem(
                                               id = "accordionother",
                                               title = unique(other_acc$nice.cat),
@@ -400,18 +400,25 @@ html, body, .test_map_div {
                                                                  selected = character(0))
                                             )),
                                   
-                                  # Other activities ----
-                                  h2(""),
-                                  accordion(id = "id-accordionp1",
+                                  # Pressures ----
+                                  h2("Which pressures or threats would you like to map?"),
+                                  accordion(id = "id-accordion8",
                                             accordionItem(
-                                              id = "accordionpressures",
-                                              title = unique(pressures_acc$nice.cat),
+                                              id = "accordionpresures",
+                                              title =  unique(filter(pressures_acc, cat_num %in% c("8"))$nice.cat),
                                               solidHeader = TRUE, status = "primary",
-                                              checkboxGroupInput(paste0("checkbox_",
-                                                                        unique(pressures_acc$Category)),
-                                                                 label = NULL,
-                                                                 choices = unique(pressures_acc$nice.act),
-                                                                 selected = character(0))
+                                              do.call(accordion, c(list(id = "id-accordionp8"), 
+                                                                   lapply(seq_along(unique(filter(pressures_acc, cat_num %in% c("8"))$Sub.category)), function(x){
+                                                                     accordionItem(
+                                                                       title = paste0(unique(filter(pressures_acc, cat_num %in% c("8"))$nice.sub)[x]),
+                                                                       checkboxGroupInput(paste0("checkbox_",
+                                                                                                 unique(pressures_acc$Category), "__",
+                                                                                                 unique(filter(pressures_acc, cat_num %in% c("8"))$Sub.category)[x]),
+                                                                                          label = NULL,
+                                                                                          choices = (filter(pressures_acc, cat_num == "8" & sub_num ==x)$nice.act),
+                                                                                          selected = character(0))
+                                                                     )
+                                                                   })))
                                             )),
                                   br(),
                                   br(),
