@@ -591,7 +591,6 @@ html, body, .test_map_div {
                 )
         )
       )
-      
+}
     # )
   # )
-}
