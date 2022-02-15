@@ -58,7 +58,7 @@ valuesdir <- "responses"
 options(spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size=2)
 
 ## Read in cultural list (downloaded from Googledrive) ----
-cultural_values <- read.csv("data/Activity list - cultural-values.csv", na.strings=c("","NA")) %>%
+cultural_values <- read.csv("data/Activity list - cultural-values.csv", na.strings=c("","NA",NA)) %>%
   select(-c(Comments))
 
 # Create a list of inputs for each value selected ----
@@ -67,11 +67,14 @@ cultural_list <- cultural_values %>%
   dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_","__" = "_", "\\_$" = ""))) %>%
   dplyr::mutate(Activity = stringr::str_replace_all(.$Activity, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
   tidyr::replace_na(list(c(Category = "NA"))) %>%
-  dplyr::mutate(input.suffix = paste(Category, Sub.category, Activity, sep = "__")) %>%
-  dplyr::mutate(input.suffix = tolower(input.suffix)) %>%
-  dplyr::mutate(days = paste("days__value",input.suffix, sep = "__")) %>%
-  dplyr::mutate(time = paste("time__value",input.suffix, sep = "__")) %>%
-  dplyr::mutate(description = paste("description__value",input.suffix, sep = "__"))
+  # dplyr::mutate(Activity = if_else(is.na(Activity), "NA", (Activity))) %>%
+  dplyr::mutate(input.suffix = if_else(is.na(Activity), paste(tolower(Category), tolower(Sub.category), "NA", sep = "__"), paste(tolower(Category), tolower(Sub.category), tolower(Activity), sep = "__"))) %>%
+  dplyr::mutate(days = paste("days__values",input.suffix, sep = "__")) %>%
+  dplyr::mutate(time = paste("time__values",input.suffix, sep = "__")) %>%
+  dplyr::mutate(description = paste("description__values",input.suffix, sep = "__"))
+
+
+test<- cultural_list %>% filter(is.na(Activity))
 
 days_inputs <- (unique(cultural_list$days))
 time_inputs <- (unique(cultural_list$time))
@@ -89,10 +92,12 @@ cultural_acc <- cultural_values %>%
   dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
   dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
   dplyr::mutate(Activity = stringr::str_replace_all(.$Activity, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(checkbox = paste("checkbox_", Category, "__", Sub.category, sep = "")) %>%
+  dplyr::mutate(checkbox = if_else(is.na(Activity), paste("checkbox_", Category, sep = ""), paste("checkbox_", Category, "__", Sub.category, sep = ""))) %>%
+  dplyr::mutate(nice.act = if_else(is.na(nice.act), nice.sub, nice.act)) %>%
+  # dplyr::mutate(checkbox = paste("checkbox_", Category, "__", Sub.category, sep = "")) %>%
   glimpse()
 
-other_acc <- activities %>%
+other_acc <- cultural_values %>%
   dplyr::mutate(nice.title = paste(Category, Sub.category, sep = " - "),
                 nice.cat = Category,
                 nice.act = Sub.category) %>%
@@ -102,15 +107,19 @@ other_acc <- activities %>%
   dplyr::mutate(checkbox = paste("checkbox_", Category, sep = "")) %>%
   glimpse()
 
-pressures_acc <- activities %>%
+pressures_acc <- cultural_values %>%
   dplyr::mutate(nice.title = paste(Category, Sub.category, sep = " - "),
                 nice.cat = Category,
-                nice.act = Sub.category) %>%
+                nice.sub = Sub.category,
+                nice.act = Activity) %>%
   dplyr::filter(Category %in% c("Pressures and threats")) %>%
   dplyr::mutate(Category = stringr::str_replace_all(.$Category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
   dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
-  dplyr::mutate(checkbox = paste("checkbox_", Category, sep = "")) %>%
+  dplyr::mutate(Activity = stringr::str_replace_all(.$Activity, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
+  dplyr::mutate(checkbox = paste("checkbox_", Category, "__", Sub.category, sep = "")) %>%
   glimpse()
+
+unique(cultural_acc$checkbox)
 
 ## Read in response scales ----
 response.scales <- read.csv("data/Activity list - Response scales.csv", na.strings=c("","NA"))

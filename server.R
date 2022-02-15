@@ -11,7 +11,7 @@ server = function(input, output, session) {
     session$close()
   })
   
-  addResourcePath("mytiles", "C:/GitHub/culturalmapper/mapTiles/OSM")
+  addResourcePath("mytiles", "~/OSM")
   
   # Show the shiny modal on start up with welcome info ----
   showModal(
@@ -563,13 +563,13 @@ server = function(input, output, session) {
     # create a list of all the checkbox inputs
     checkboxall <-
       c(
-        unique(activity.acc$checkbox),
-        unique(values.acc$checkbox),
-        unique(other.acc$checkbox)
+        unique(cultural_acc$checkbox),
+        unique(other_acc$checkbox),
+        unique(pressures_acc$checkbox)
       ) 
     
     # create a dataframe with all the activity variables
-    all.acc <- bind_rows(activity.acc, values.acc, other.acc)
+    all.acc <- bind_rows(cultural_acc, other_acc, pressures_acc)
     
     # get all checked boxes
     print("checkboxes selected")
@@ -647,9 +647,9 @@ server = function(input, output, session) {
               #   group = "World Imagery",
               #   options = providerTileOptions(minZoom = 8, maxZoom = 14)
               # ) %>%
-              # addTiles(group = "Open Street Map",
-              #          options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>% 
-              addTiles(urlTemplate = "/mytiles/{z}_{x}_{y}.png", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
+              addTiles(group = "Open Street Map",
+                        options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>% 
+              # addTiles(urlTemplate = "/mytiles/{z}_{x}_{y}.png", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
 
               fitBounds(bounds[1], bounds[2], bounds[3], bounds[4]) %>%
               
@@ -701,8 +701,7 @@ server = function(input, output, session) {
       NULL
     }
     
-    values.selected <- selected.data() %>%
-      filter(category %in% c("local_knowledge"))
+    values.selected <- selected.data() 
     
     no.selected.values <- nrow(values.selected)
     
@@ -713,9 +712,10 @@ server = function(input, output, session) {
         
         category <- unique(dat$category)
         subcategory <- unique(dat$subcategory)
+        activity <- unique(dat$activity)
         
         plotname <-
-          paste("plot_values", category, subcategory, sep = "_")
+          paste("plot_values", category, subcategory, activity, sep = "_")
         
         data <- SpP[SpP@data$reg %in% c(unique(regionlist()$id)),]
         
@@ -782,133 +782,132 @@ server = function(input, output, session) {
     
   })
   
-  # Create plot tag list and create leaflet outputs for each activity selected ----
-  observeEvent(input$nextspatial, {
-    output$activity_plots <- renderUI({
-      activities.selected <- selected.data() %>%
-        filter(!category %in% c("local_knowledge"))
-      
-      no.selected.activities <- nrow(activities.selected)
-      
-      if (no.selected.activities > 0) {
-        plot_output_list_activities <-
-          lapply(1:nrow(activities.selected), function(i) {
-            dat <- activities.selected %>%
-              slice(i)
-            
-            category <- unique(dat$category)
-            subcategory <- unique(dat$subcategory)
-            activity <- unique(dat$activity)
-            
-            title <- unique(dat$nice.title)
-            
-            daysname <-
-              paste("days__activity",
-                    category,
-                    subcategory,
-                    activity,
-                    sep = "__")
-            timename <-
-              paste("time__activity",
-                    category,
-                    subcategory,
-                    activity,
-                    sep = "__")
-            descriptionname <-
-              paste("description__activity",
-                    category,
-                    subcategory,
-                    activity,
-                    sep = "__")
-            plotname <-
-              paste("plot_activity",
-                    category,
-                    subcategory,
-                    activity,
-                    sep = "_")
-            
-            box(
-              title = title,
-              status = "primary",
-              solidHeader = TRUE,
-              width = 12,
-              radioButtons(
-                daysname,
-                width = "100%",
-                label = labelMandatory(
-                  paste(
-                    "Estimated number of days per year that you participate in",
-                    title, 
-                    "across the regions you selected",
-                    sep = " "
-                  )
-                ),
-                choices = c(
-                  "1 - 4",
-                  "5 - 9",
-                  "10 - 14",
-                  "15 - 19",
-                  "20 - 29",
-                  "30 - 39",
-                  "40 - 59",
-                  "60 +"
-                ),
-                selected = character(0)
-              ),
-              checkboxGroupInput(
-                timename,
-                label = labelMandatory("When do most of these trips happen?:"),
-                choices = c("Summer",
-                            "Autumn",
-                            "Winter",
-                            "Spring"),
-                selected = character(0)
-              ),
-              textAreaInput(
-                descriptionname,
-                width = "94%",
-                label = "Description (provide more details about the activity if you like):",
-                placeholder = NULL,
-                height = "175px"
-              ),
-              
-              h4(strong(paste(
-                "Please click on the areas important to you for ",
-                title,
-                ". All cells are 2.5 km wide at the widest point. ",
-                sep = ""
-              )), labelMandatory("")),
-              
-              tags$h4(
-                paste(
-                  "You may click on as many areas as you like. You may also deselect an area by clicking a second time.",
-                  sep = ""
-                )
-              ),
-              
-              withSpinner(
-                leafletOutput(plotname, height = 600, width = "94%"),
-                type = 3
-              )
-            )
-            
-          })
-        
-        do.call(tagList, plot_output_list_activities)
-        
-      } else {
-        NULL
-      }
-      
-    })
-    
-  })
+  # # Create plot tag list and create leaflet outputs for each activity selected ----
+  # observeEvent(input$nextspatial, {
+  #   output$activity_plots <- renderUI({
+  #     activities.selected <- selected.data() %>%
+  #       filter(!category %in% c("local_knowledge"))
+  #     
+  #     no.selected.activities <- nrow(activities.selected)
+  #     
+  #     if (no.selected.activities > 0) {
+  #       plot_output_list_activities <-
+  #         lapply(1:nrow(activities.selected), function(i) {
+  #           dat <- activities.selected %>%
+  #             slice(i)
+  #           
+  #           category <- unique(dat$category)
+  #           subcategory <- unique(dat$subcategory)
+  #           activity <- unique(dat$activity)
+  #           
+  #           title <- unique(dat$nice.title)
+  #           
+  #           daysname <-
+  #             paste("days__activity",
+  #                   category,
+  #                   subcategory,
+  #                   activity,
+  #                   sep = "__")
+  #           timename <-
+  #             paste("time__activity",
+  #                   category,
+  #                   subcategory,
+  #                   activity,
+  #                   sep = "__")
+  #           descriptionname <-
+  #             paste("description__activity",
+  #                   category,
+  #                   subcategory,
+  #                   activity,
+  #                   sep = "__")
+  #           plotname <-
+  #             paste("plot_activity",
+  #                   category,
+  #                   subcategory,
+  #                   activity,
+  #                   sep = "_")
+  #           
+  #           box(
+  #             title = title,
+  #             status = "primary",
+  #             solidHeader = TRUE,
+  #             width = 12,
+  #             radioButtons(
+  #               daysname,
+  #               width = "100%",
+  #               label = labelMandatory(
+  #                 paste(
+  #                   "Estimated number of days per year that you participate in",
+  #                   title, 
+  #                   "across the regions you selected",
+  #                   sep = " "
+  #                 )
+  #               ),
+  #               choices = c(
+  #                 "1 - 4",
+  #                 "5 - 9",
+  #                 "10 - 14",
+  #                 "15 - 19",
+  #                 "20 - 29",
+  #                 "30 - 39",
+  #                 "40 - 59",
+  #                 "60 +"
+  #               ),
+  #               selected = character(0)
+  #             ),
+  #             checkboxGroupInput(
+  #               timename,
+  #               label = labelMandatory("When do most of these trips happen?:"),
+  #               choices = c("Summer",
+  #                           "Autumn",
+  #                           "Winter",
+  #                           "Spring"),
+  #               selected = character(0)
+  #             ),
+  #             textAreaInput(
+  #               descriptionname,
+  #               width = "94%",
+  #               label = "Description (provide more details about the activity if you like):",
+  #               placeholder = NULL,
+  #               height = "175px"
+  #             ),
+  #             
+  #             h4(strong(paste(
+  #               "Please click on the areas important to you for ",
+  #               title,
+  #               ". All cells are 2.5 km wide at the widest point. ",
+  #               sep = ""
+  #             )), labelMandatory("")),
+  #             
+  #             tags$h4(
+  #               paste(
+  #                 "You may click on as many areas as you like. You may also deselect an area by clicking a second time.",
+  #                 sep = ""
+  #               )
+  #             ),
+  #             
+  #             withSpinner(
+  #               leafletOutput(plotname, height = 600, width = "94%"),
+  #               type = 3
+  #             )
+  #           )
+  #           
+  #         })
+  #       
+  #       do.call(tagList, plot_output_list_activities)
+  #       
+  #     } else {
+  #       NULL
+  #     }
+  #     
+  #   })
+  #   
+  # })
   
   # Create plot tag list and create leaflet outputs for each value selected ----
   observeEvent(input$nextspatial, {
     output$values_plots <- renderUI({
-      values.selected <- selected.data() %>%
-        filter(category %in% c("local_knowledge")) 
+      values.selected <- selected.data() 
       
       no.selected.values <- nrow(values.selected) 
       
@@ -926,11 +925,16 @@ server = function(input, output, session) {
           
           category <- unique(dat$category)
           subcategory <- unique(dat$subcategory)
+          activity <- unique(dat$activity)
+          
+          print("description name")
           
           descriptionname <-
-            paste("description__values", category, subcategory, sep = "__")
+            paste("description__values", category, subcategory, activity, sep = "__") %>%
+            glimpse()
+          
           plotname <-
-            paste("plot_values", category, subcategory, sep = "_")
+            paste("plot_values", category, subcategory, activity,  sep = "_")
           
           box(
             title = title,
@@ -971,238 +975,185 @@ server = function(input, output, session) {
     
   })
   
-  observeEvent(input$nextactivities, {
+  # observeEvent(input$nextactivities, {
+  # 
+  #   # change polygon colours when clicked ----
+  #   observe ({
+  #     activities.selected <- selected.data() %>%
+  #       filter(!category %in% c("local_knowledge"))
+  #     
+  #     no.selected.activities <- nrow(activities.selected)
+  #     
+  #     lapply(1:no.selected.activities, function(i) {
+  #       dat <- activities.selected %>%
+  #         slice(i)
+  #       
+  #       category <- unique(dat$category)
+  #       subcategory <- unique(dat$subcategory)
+  #       activity <- unique(dat$activity)
+  #       
+  #       plotname <-
+  #         paste("plot_activity", category, subcategory, activity, sep = "_")
+  #       
+  #       rv <- SpP[SpP@data$reg %in% c(unique(regionlist()$id)),]
+  #       
+  #       observeEvent(input[[paste0(plotname, "_shape_click", sep = "")]], {
+  #         # execute only if the polygon has never been clicked
+  #         if (input[[paste0(plotname, "_shape_click", sep = "")]]$group == "unclicked_poly") {
+  #           #print("selected ID")
+  #           selected.id <- input[[paste0(plotname, "_shape_click", sep = "")]] #%>%
+  #             #glimpse()
+  #           
+  #           #print("selected")
+  #           data <- rv[rv$ID == selected.id$id, ]
+  #           
+  #           change_color(
+  #             map = plotname,
+  #             id_to_remove =  selected.id$id,
+  #             data = data,
+  #             colour = "#F1BA33",
+  #             new_group = "clicked1_poly"
+  #           )
+  #           
+  #           
+  #           
+  #         } else {
+  #           selected.id <- input[[paste0(plotname, "_shape_click", sep = "")]]
+  #           data <- rv[rv$ID == selected.id$id, ]
+  #           
+  #           leafletProxy(plotname) %>%
+  #           removeShape(selected.id$id) %>% # remove previous occurrence
+  #           addPolygons(
+  #             data = data,
+  #             layerId = data$ID,
+  #             group = "unclicked_poly",
+  #             fillColor = "white",
+  #             fillOpacity = 0.2,
+  #             color = "red",
+  #             weight = 1,
+  #             options = pathOptions(pane = "polygons")
+  #           )  # back to initialize group
+  #           
+  #         }
+  #       })
+  #       
+  #       # Add labels to map ----
+  #       observeEvent(
+  #         eventExpr = input[[paste0(plotname, "_zoom", sep = "")]], {
+  #           
+  #           print(unique(regionlist()$id))
+  #           on.14 <- on.14 %>% filter(Region %in% c(unique(regionlist()$id)))
+  #           on.12 <- on.12 %>% filter(Region %in% c(unique(regionlist()$id)))
+  #           on.10 <- on.10 %>% filter(Region %in% c(unique(regionlist()$id)))
+  #           
+  #           # Bigger number = more zoomed in
+  #           if(input[[paste0(plotname, "_zoom", sep = "")]] >= 14){
+  #             leafletProxy(
+  #               mapId = plotname, 
+  #               session = session) %>% 
+  #               clearMarkers() %>%
+  #               addLabelOnlyMarkers(lng = on.14$X, 
+  #                                   lat = on.14$Y,
+  #                                   group = "Detailed labels",
+  #                                   labelOptions = labelOptions(noHide = T, 
+  #                                                               textsize = "12px", 
+  #                                                               textOnly = TRUE),
+  #                                   label = on.14$Name) %>%
+  #               addLabelOnlyMarkers(lng = on.12$X, 
+  #                                   lat = on.12$Y,
+  #                                   group = "Detailed labels",
+  #                                   labelOptions = labelOptions(noHide = T, 
+  #                                                               textsize = "12px", 
+  #                                                               textOnly = TRUE),
+  #                                   label = on.12$Name) %>%
+  #               addLabelOnlyMarkers(lng = on.10$X, 
+  #                                   lat = on.10$Y,
+  #                                   group = "Detailed labels",
+  #                                   labelOptions = labelOptions(noHide = T, 
+  #                                                               textsize = "12px", 
+  #                                                               textOnly = TRUE),
+  #                                   label = on.10$Name) %>%
+  #               addLayersControl(
+  #                 baseGroups = c("Open Street Map", "World Imagery"),
+  #                 overlayGroups = c("Depth", "Detailed labels"),
+  #                 options = layersControlOptions(collapsed = FALSE))
+  #             
+  #           } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 12) {
+  #             
+  #             leafletProxy(
+  #               mapId = plotname, 
+  #               session = session) %>% 
+  #               clearMarkers() %>%
+  #               addLabelOnlyMarkers(lng = on.12$X, 
+  #                                   lat = on.12$Y,
+  #                                   group = "Detailed labels",
+  #                                   labelOptions = labelOptions(noHide = T, 
+  #                                                               textsize = "12px", 
+  #                                                               textOnly = TRUE),
+  #                                   label = on.12$Name)%>%
+  #               addLabelOnlyMarkers(lng = on.10$X, 
+  #                                   lat = on.10$Y,
+  #                                   group = "Detailed labels",
+  #                                   labelOptions = labelOptions(noHide = T, 
+  #                                                               textsize = "12px", 
+  #                                                               textOnly = TRUE),
+  #                                   label = on.10$Name) %>%
+  #               addLayersControl(
+  #                 baseGroups = c("Open Street Map", "World Imagery"),
+  #                 overlayGroups = c("Depth", "Detailed labels"),
+  #                 options = layersControlOptions(collapsed = FALSE))
+  #             
+  #           } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 10) {
+  #             
+  #             leafletProxy(
+  #               mapId = plotname, 
+  #               session = session) %>% 
+  #               clearMarkers() %>%
+  #               addLabelOnlyMarkers(lng = on.10$X, 
+  #                                   lat = on.10$Y,
+  #                                   group = "Detailed labels",
+  #                                   labelOptions = labelOptions(noHide = T, 
+  #                                                               textsize = "12px", 
+  #                                                               textOnly = TRUE),
+  #                                   label = on.10$Name) %>%
+  #               addLayersControl(
+  #                 baseGroups = c("Open Street Map", "World Imagery"),
+  #                 overlayGroups = c("Depth", "Detailed labels"),
+  #                 options = layersControlOptions(collapsed = FALSE))
+  #             
+  #           } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 8) {
+  #             
+  #             leafletProxy(
+  #               mapId = plotname, 
+  #               session = session) %>% 
+  #               clearMarkers() %>%
+  #               addLabelOnlyMarkers(lng = on.8$X, 
+  #                                   lat = on.8$Y,
+  #                                   group = "Detailed labels",
+  #                                   labelOptions = labelOptions(noHide = T, 
+  #                                                               textsize = "12px", 
+  #                                                               textOnly = TRUE),
+  #                                   label = on.8$Name) %>%
+  #               addLabelOnlyMarkers(lng = towns$X, 
+  #                                   lat = towns$Y,
+  #                                   group = "Town labels",
+  #                                   labelOptions = labelOptions(noHide = T, 
+  #                                                               textsize = "12px", 
+  #                                                               textOnly = TRUE),
+  #                                   label = towns$Name) %>%
+  #               addLayersControl(
+  #                 baseGroups = c("Open Street Map", "World Imagery"),
+  #                 overlayGroups = c("Depth", "Town labels" ,"Detailed labels"),
+  #                 options = layersControlOptions(collapsed = FALSE))
+  #           }
+  #         }
+  #       )
+  #     })
+  #   })
+    
 
-    # change polygon colours when clicked ----
-    observe ({
-      activities.selected <- selected.data() %>%
-        filter(!category %in% c("local_knowledge"))
-      
-      no.selected.activities <- nrow(activities.selected)
-      
-      lapply(1:no.selected.activities, function(i) {
-        dat <- activities.selected %>%
-          slice(i)
-        
-        category <- unique(dat$category)
-        subcategory <- unique(dat$subcategory)
-        activity <- unique(dat$activity)
-        
-        plotname <-
-          paste("plot_activity", category, subcategory, activity, sep = "_")
-        
-        rv <- SpP[SpP@data$reg %in% c(unique(regionlist()$id)),]
-        
-        observeEvent(input[[paste0(plotname, "_shape_click", sep = "")]], {
-          # execute only if the polygon has never been clicked
-          if (input[[paste0(plotname, "_shape_click", sep = "")]]$group == "unclicked_poly") {
-            #print("selected ID")
-            selected.id <- input[[paste0(plotname, "_shape_click", sep = "")]] #%>%
-              #glimpse()
-            
-            #print("selected")
-            data <- rv[rv$ID == selected.id$id, ]
-            
-            change_color(
-              map = plotname,
-              id_to_remove =  selected.id$id,
-              data = data,
-              colour = "#F1BA33",
-              new_group = "clicked1_poly"
-            )
-            
-            
-            
-          } else {
-            selected.id <- input[[paste0(plotname, "_shape_click", sep = "")]]
-            data <- rv[rv$ID == selected.id$id, ]
-            
-            leafletProxy(plotname) %>%
-            removeShape(selected.id$id) %>% # remove previous occurrence
-            addPolygons(
-              data = data,
-              layerId = data$ID,
-              group = "unclicked_poly",
-              fillColor = "white",
-              fillOpacity = 0.2,
-              color = "red",
-              weight = 1,
-              options = pathOptions(pane = "polygons")
-            )  # back to initialize group
-            
-          }
-        })
-        
-        # Add labels to map ----
-        observeEvent(
-          eventExpr = input[[paste0(plotname, "_zoom", sep = "")]], {
-            
-            print(unique(regionlist()$id))
-            on.14 <- on.14 %>% filter(Region %in% c(unique(regionlist()$id)))
-            on.12 <- on.12 %>% filter(Region %in% c(unique(regionlist()$id)))
-            on.10 <- on.10 %>% filter(Region %in% c(unique(regionlist()$id)))
-            
-            # Bigger number = more zoomed in
-            if(input[[paste0(plotname, "_zoom", sep = "")]] >= 14){
-              leafletProxy(
-                mapId = plotname, 
-                session = session) %>% 
-                clearMarkers() %>%
-                addLabelOnlyMarkers(lng = on.14$X, 
-                                    lat = on.14$Y,
-                                    group = "Detailed labels",
-                                    labelOptions = labelOptions(noHide = T, 
-                                                                textsize = "12px", 
-                                                                textOnly = TRUE),
-                                    label = on.14$Name) %>%
-                addLabelOnlyMarkers(lng = on.12$X, 
-                                    lat = on.12$Y,
-                                    group = "Detailed labels",
-                                    labelOptions = labelOptions(noHide = T, 
-                                                                textsize = "12px", 
-                                                                textOnly = TRUE),
-                                    label = on.12$Name) %>%
-                addLabelOnlyMarkers(lng = on.10$X, 
-                                    lat = on.10$Y,
-                                    group = "Detailed labels",
-                                    labelOptions = labelOptions(noHide = T, 
-                                                                textsize = "12px", 
-                                                                textOnly = TRUE),
-                                    label = on.10$Name) %>%
-                addLayersControl(
-                  baseGroups = c("Open Street Map", "World Imagery"),
-                  overlayGroups = c("Depth", "Detailed labels"),
-                  options = layersControlOptions(collapsed = FALSE))
-              
-            } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 12) {
-              
-              leafletProxy(
-                mapId = plotname, 
-                session = session) %>% 
-                clearMarkers() %>%
-                addLabelOnlyMarkers(lng = on.12$X, 
-                                    lat = on.12$Y,
-                                    group = "Detailed labels",
-                                    labelOptions = labelOptions(noHide = T, 
-                                                                textsize = "12px", 
-                                                                textOnly = TRUE),
-                                    label = on.12$Name)%>%
-                addLabelOnlyMarkers(lng = on.10$X, 
-                                    lat = on.10$Y,
-                                    group = "Detailed labels",
-                                    labelOptions = labelOptions(noHide = T, 
-                                                                textsize = "12px", 
-                                                                textOnly = TRUE),
-                                    label = on.10$Name) %>%
-                addLayersControl(
-                  baseGroups = c("Open Street Map", "World Imagery"),
-                  overlayGroups = c("Depth", "Detailed labels"),
-                  options = layersControlOptions(collapsed = FALSE))
-              
-            } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 10) {
-              
-              leafletProxy(
-                mapId = plotname, 
-                session = session) %>% 
-                clearMarkers() %>%
-                addLabelOnlyMarkers(lng = on.10$X, 
-                                    lat = on.10$Y,
-                                    group = "Detailed labels",
-                                    labelOptions = labelOptions(noHide = T, 
-                                                                textsize = "12px", 
-                                                                textOnly = TRUE),
-                                    label = on.10$Name) %>%
-                addLayersControl(
-                  baseGroups = c("Open Street Map", "World Imagery"),
-                  overlayGroups = c("Depth", "Detailed labels"),
-                  options = layersControlOptions(collapsed = FALSE))
-              
-            } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 8) {
-              
-              leafletProxy(
-                mapId = plotname, 
-                session = session) %>% 
-                clearMarkers() %>%
-                addLabelOnlyMarkers(lng = on.8$X, 
-                                    lat = on.8$Y,
-                                    group = "Detailed labels",
-                                    labelOptions = labelOptions(noHide = T, 
-                                                                textsize = "12px", 
-                                                                textOnly = TRUE),
-                                    label = on.8$Name) %>%
-                addLabelOnlyMarkers(lng = towns$X, 
-                                    lat = towns$Y,
-                                    group = "Town labels",
-                                    labelOptions = labelOptions(noHide = T, 
-                                                                textsize = "12px", 
-                                                                textOnly = TRUE),
-                                    label = towns$Name) %>%
-                addLayersControl(
-                  baseGroups = c("Open Street Map", "World Imagery"),
-                  overlayGroups = c("Depth", "Town labels" ,"Detailed labels"),
-                  options = layersControlOptions(collapsed = FALSE))
-            }
-          }
-        )
-      })
-    })
     
-    # Save polygons clicked - create a list ----
-    clicklist <- reactiveVal(
-      clicklist <- data.frame(
-        category = character(0),
-        subcategory = character(0),
-        activity = character(0),
-        id = character(0),
-        group = character(0),
-        poltime = character(0)
-      )
-    ) # empty dataframe
-    
-    observe({
-      activities.selected <- selected.data() %>%
-        filter(!category %in% c("local_knowledge"))
-      
-      no.selected.activities <- as.numeric(nrow(activities.selected))
-      
-      print("number of selected activities:")
-      print(no.selected.activities)
-      
-      lapply(1:no.selected.activities, function(i) {
-        dat <- activities.selected %>%
-          slice(i)
-        
-        category <- unique(dat$category)
-        subcategory <- unique(dat$subcategory)
-        activity <- as.character(unique(dat$activity))
-        
-        plotname <-paste("plot_activity", category, subcategory, activity, sep = "_")
-        
-        observeEvent(input[[paste0(plotname, "_shape_click", sep = "")]], {
-          id <- input[[paste0(plotname, "_shape_click", sep = "")]]$id
-          group <- input[[paste0(plotname, "_shape_click", sep = "")]]$group
-          
-          plot <- plotname
-          
-          print("new data")
-          new.dat <- data.frame(category, subcategory, activity, id, group) %>%
-            # mutate(number.of.times.clicked = 1) %>%
-            mutate(poltime = Sys.time()) %>%
-            dplyr::mutate(poltime = as.character(poltime)) %>%
-            distinct() #%>% glimpse()
-          
-          temp <- clicklist() # get the list of past clicks
-          
-          print("new and old data")
-          temp <- bind_rows(temp, new.dat) %>%
-            distinct() %>%
-            mutate(number.of.times.clicked = 1) #%>% glimpse()
-          
-          clicklist(temp)
-          
-        })
-      })
-    })
+ 
     
     # Save polygons clicked - write to dropbox and googledrive ----
     observeEvent(input$submit, {
@@ -1258,7 +1209,7 @@ server = function(input, output, session) {
                     id = NA_real_,
                     number.of.times.clicked = NA_real_)
       
-      clicks <- bind_rows(clicklist(), valuelist()) %>%
+      clicks <- bind_rows(valuelist()) %>%
         distinct() %>%
         add_column(!!!click.cols[!names(click.cols) %in% names(.)]) %>%
         dplyr::group_by(category, subcategory, activity, id) %>%
@@ -1477,6 +1428,7 @@ server = function(input, output, session) {
       valuelist <- data.frame(
         category = character(0),
         subcategory = character(0),
+        activity = character(0),
         id = character(0),
         group = character(0),
         poltime = character(0)
@@ -1484,8 +1436,7 @@ server = function(input, output, session) {
     ) # empty dataframe
     
     observe({
-      values.selected <- selected.data() %>%
-        filter(category %in% c("local_knowledge"))
+      values.selected <- selected.data()
       
       no.selected.values <- nrow(values.selected)
       
@@ -1495,9 +1446,10 @@ server = function(input, output, session) {
         
         category <- unique(dat$category)
         subcategory <- unique(dat$subcategory)
+        activity <- unique(dat$activity)
         
         plotname <-
-          paste("plot_values", category, subcategory, sep = "_")
+          paste("plot_values", category, subcategory, activity, sep = "_")
         
         observeEvent(input[[paste0(plotname, "_shape_click", sep = "")]], {
           id <- input[[paste0(plotname, "_shape_click", sep = "")]]$id
@@ -1507,7 +1459,7 @@ server = function(input, output, session) {
           plot <- plotname
           
           new.dat <-
-            data.frame(category, subcategory, id, group) %>%
+            data.frame(category, subcategory, activity, id, group) %>%
             mutate(poltime = Sys.time()) %>%
             dplyr::mutate(poltime = as.character(poltime)) %>%
             distinct() %>%
@@ -1639,8 +1591,7 @@ server = function(input, output, session) {
     })
     
     observe ({
-      values.selected <- selected.data() %>%
-        filter(category %in% c("local_knowledge"))
+      values.selected <- selected.data()
       
       no.selected.values <- nrow(values.selected)
       
@@ -1650,9 +1601,10 @@ server = function(input, output, session) {
         
         category <- unique(dat$category)
         subcategory <- unique(dat$subcategory)
+        activity <- unique(dat$activity)
         
         plotname <-
-          paste("plot_values", category, subcategory, sep = "_")
+          paste("plot_values", category, subcategory, activity, sep = "_")
         
         rv <- SpP[SpP@data$reg %in% c(unique(regionlist()$id)),]
         
@@ -1706,6 +1658,5 @@ server = function(input, output, session) {
       
     })
     
-  })
   
 }
