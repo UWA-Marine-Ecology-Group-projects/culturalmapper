@@ -11,7 +11,7 @@ server = function(input, output, session) {
     session$close()
   })
   
-  addResourcePath("mytiles", "C:/GitHub/culturalmapper/mapTiles/OSM")
+  addResourcePath("mytiles", "~/OSM")
   
   # Show the shiny modal on start up with welcome info ----
   showModal(
@@ -927,8 +927,12 @@ server = function(input, output, session) {
           subcategory <- unique(dat$subcategory)
           activity <- unique(dat$activity)
           
+          print("description name")
+          
           descriptionname <-
-            paste("description__values", category, subcategory, activity, sep = "__")
+            paste("description__values", category, subcategory, activity, sep = "__") %>%
+            glimpse()
+          
           plotname <-
             paste("plot_values", category, subcategory, activity,  sep = "_")
           
@@ -1597,9 +1601,10 @@ server = function(input, output, session) {
         
         category <- unique(dat$category)
         subcategory <- unique(dat$subcategory)
+        activity <- unique(dat$activity)
         
         plotname <-
-          paste("plot_values", category, subcategory, sep = "_")
+          paste("plot_values", category, subcategory, activity, sep = "_")
         
         rv <- SpP[SpP@data$reg %in% c(unique(regionlist()$id)),]
         

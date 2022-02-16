@@ -58,7 +58,7 @@ valuesdir <- "responses"
 options(spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size=2)
 
 ## Read in cultural list (downloaded from Googledrive) ----
-cultural_values <- read.csv("data/Activity list - cultural-values.csv", na.strings=c("","NA")) %>%
+cultural_values <- read.csv("data/Activity list - cultural-values.csv", na.strings=c("","NA",NA)) %>%
   select(-c(Comments))
 
 # Create a list of inputs for each value selected ----
@@ -67,11 +67,14 @@ cultural_list <- cultural_values %>%
   dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_","__" = "_", "\\_$" = ""))) %>%
   dplyr::mutate(Activity = stringr::str_replace_all(.$Activity, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
   tidyr::replace_na(list(c(Category = "NA"))) %>%
-  dplyr::mutate(input.suffix = paste(Category, Sub.category, Activity, sep = "__")) %>%
-  dplyr::mutate(input.suffix = tolower(input.suffix)) %>%
-  dplyr::mutate(days = paste("days__value",input.suffix, sep = "__")) %>%
-  dplyr::mutate(time = paste("time__value",input.suffix, sep = "__")) %>%
-  dplyr::mutate(description = paste("description__value",input.suffix, sep = "__"))
+  # dplyr::mutate(Activity = if_else(is.na(Activity), "NA", (Activity))) %>%
+  dplyr::mutate(input.suffix = if_else(is.na(Activity), paste(tolower(Category), tolower(Sub.category), "NA", sep = "__"), paste(tolower(Category), tolower(Sub.category), tolower(Activity), sep = "__"))) %>%
+  dplyr::mutate(days = paste("days__values",input.suffix, sep = "__")) %>%
+  dplyr::mutate(time = paste("time__values",input.suffix, sep = "__")) %>%
+  dplyr::mutate(description = paste("description__values",input.suffix, sep = "__"))
+
+
+test<- cultural_list %>% filter(is.na(Activity))
 
 days_inputs <- (unique(cultural_list$days))
 time_inputs <- (unique(cultural_list$time))
@@ -418,4 +421,3 @@ isValidEmail <- function(x) {
   grepl("\\<[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\>", as.character(x), 
         ignore.case=TRUE)
 }
-
