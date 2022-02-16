@@ -11,7 +11,7 @@ server = function(input, output, session) {
     session$close()
   })
   
-  addResourcePath("mytiles", "~/OSM")
+ # addResourcePath("mytiles", "~/OSM")
   
   # Show the shiny modal on start up with welcome info ----
   showModal(
