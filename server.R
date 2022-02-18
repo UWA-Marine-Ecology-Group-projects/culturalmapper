@@ -99,8 +99,7 @@ server = function(input, output, session) {
                    !nchar(gsub("[^0-9]+", "", input$phone)) == 10 |
                    is.null(input$residence) | # if not null and all others are filled out, then the next statement will check the postcode format
                    is.null(input$gender) |
-                   is.null(input$age) |
-                   is.null(input$frequency) 
+                   is.null(input$age)
                    
                    ) {
                  
@@ -130,7 +129,7 @@ server = function(input, output, session) {
                  updateTabsetPanel(session, "surveybox", selected = "Values mapping")
                  showTab(inputId = "surveybox", target = "Values mapping")
                  hideTab(inputId = "surveybox", target = "Contact information")
-                 updateProgressBar(session, "progress", value = 25, total = 100)
+                 updateProgressBar(session, "progress", value = 33, total = 100)
                  
                  showModal(
                    modalDialog(
@@ -187,7 +186,7 @@ server = function(input, output, session) {
                if (nrow(selected.data()) > 0 & nrow(regionlist()) > 0){
                  showTab(inputId = "surveybox", target = "Spatial questions")
                  updateTabsetPanel(session, "surveybox", selected = "Spatial questions")
-                 updateProgressBar(session, "progress", value = 50, total = 100)
+                 updateProgressBar(session, "progress", value = 66, total = 100)
                  hideTab(inputId = "surveybox", target = "Values mapping")
                  
                } else if (nrow(selected.data()) > 0 & nrow(regionlist()) == 0){
@@ -280,7 +279,7 @@ server = function(input, output, session) {
                if (!is.na(input$name)){
                  showTab(inputId = "surveybox", target = "Values mapping")
                  updateTabsetPanel(session, "surveybox", selected = "Values mapping")
-                 updateProgressBar(session, "progress", value = 25, total = 100)
+                 updateProgressBar(session, "progress", value = 33, total = 100)
                  hideTab(inputId = "surveybox", target = "Spatial questions")
                }
   )
@@ -302,13 +301,13 @@ server = function(input, output, session) {
                  showTab(inputId = "surveybox", target = "Spatial questions")
                  hideTab(inputId = "surveybox", target = "Social values and benefits")
                  updateTabsetPanel(session, "surveybox", selected = "Spatial questions")
-                 updateProgressBar(session, "progress", value = 50, total = 100)
+                 updateProgressBar(session, "progress", value = 66, total = 100)
                  
                } else {
                  showTab(inputId = "surveybox", target = "Values mapping")
                  hideTab(inputId = "surveybox", target = "Social values and benefits")
                  updateTabsetPanel(session, "surveybox", selected = "Values mapping")
-                 updateProgressBar(session, "progress", value = 25, total = 100)
+                 updateProgressBar(session, "progress", value = 33, total = 100)
                }
   )
   
@@ -357,8 +356,8 @@ server = function(input, output, session) {
       leaflet(
         padding = 500,
         options = leafletOptions(zoomControl = TRUE, dragging = TRUE)) %>%
-        #addTiles() %>% 
-        addTiles(urlTemplate = "/mytiles/{z}_{x}_{y}.png", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
+        addTiles() %>% 
+        # addTiles(urlTemplate = "/mytiles/{z}_{x}_{y}.png", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
         fitBounds(regionbounds[1], regionbounds[2], regionbounds[3], -32.5) %>%
         addPolygons(
           data = regions,
@@ -730,8 +729,8 @@ server = function(input, output, session) {
               options = leafletOptions(zoomControl = TRUE, dragging = TRUE)
             ) %>%
               addmouselatlon() %>%
-              # addProviderTiles('Esri.WorldImagery', group = "World Imagery") %>%
-              # addTiles() %>% #group = "Open Street Map"
+              addProviderTiles('Esri.WorldImagery', group = "World Imagery") %>%
+              addTiles() %>% #group = "Open Street Map"
               addTiles(urlTemplate = "/mytiles/{z}_{x}_{y}.png", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
               fitBounds(bounds[1], bounds[2], bounds[3], bounds[4]) %>%
               
@@ -781,128 +780,6 @@ server = function(input, output, session) {
     }
     
   })
-  
-  # # Create plot tag list and create leaflet outputs for each activity selected ----
-  # observeEvent(input$nextspatial, {
-  #   output$activity_plots <- renderUI({
-  #     activities.selected <- selected.data() %>%
-  #       filter(!category %in% c("local_knowledge"))
-  #     
-  #     no.selected.activities <- nrow(activities.selected)
-  #     
-  #     if (no.selected.activities > 0) {
-  #       plot_output_list_activities <-
-  #         lapply(1:nrow(activities.selected), function(i) {
-  #           dat <- activities.selected %>%
-  #             slice(i)
-  #           
-  #           category <- unique(dat$category)
-  #           subcategory <- unique(dat$subcategory)
-  #           activity <- unique(dat$activity)
-  #           
-  #           title <- unique(dat$nice.title)
-  #           
-  #           daysname <-
-  #             paste("days__activity",
-  #                   category,
-  #                   subcategory,
-  #                   activity,
-  #                   sep = "__")
-  #           timename <-
-  #             paste("time__activity",
-  #                   category,
-  #                   subcategory,
-  #                   activity,
-  #                   sep = "__")
-  #           descriptionname <-
-  #             paste("description__activity",
-  #                   category,
-  #                   subcategory,
-  #                   activity,
-  #                   sep = "__")
-  #           plotname <-
-  #             paste("plot_activity",
-  #                   category,
-  #                   subcategory,
-  #                   activity,
-  #                   sep = "_")
-  #           
-  #           box(
-  #             title = title,
-  #             status = "primary",
-  #             solidHeader = TRUE,
-  #             width = 12,
-  #             radioButtons(
-  #               daysname,
-  #               width = "100%",
-  #               label = labelMandatory(
-  #                 paste(
-  #                   "Estimated number of days per year that you participate in",
-  #                   title, 
-  #                   "across the regions you selected",
-  #                   sep = " "
-  #                 )
-  #               ),
-  #               choices = c(
-  #                 "1 - 4",
-  #                 "5 - 9",
-  #                 "10 - 14",
-  #                 "15 - 19",
-  #                 "20 - 29",
-  #                 "30 - 39",
-  #                 "40 - 59",
-  #                 "60 +"
-  #               ),
-  #               selected = character(0)
-  #             ),
-  #             checkboxGroupInput(
-  #               timename,
-  #               label = labelMandatory("When do most of these trips happen?:"),
-  #               choices = c("Summer",
-  #                           "Autumn",
-  #                           "Winter",
-  #                           "Spring"),
-  #               selected = character(0)
-  #             ),
-  #             textAreaInput(
-  #               descriptionname,
-  #               width = "94%",
-  #               label = "Description (provide more details about the activity if you like):",
-  #               placeholder = NULL,
-  #               height = "175px"
-  #             ),
-  #             
-  #             h4(strong(paste(
-  #               "Please click on the areas important to you for ",
-  #               title,
-  #               ". All cells are 2.5 km wide at the widest point. ",
-  #               sep = ""
-  #             )), labelMandatory("")),
-  #             
-  #             tags$h4(
-  #               paste(
-  #                 "You may click on as many areas as you like. You may also deselect an area by clicking a second time.",
-  #                 sep = ""
-  #               )
-  #             ),
-  #             
-  #             withSpinner(
-  #               leafletOutput(plotname, height = 600, width = "94%"),
-  #               type = 3
-  #             )
-  #           )
-  #           
-  #         })
-  #       
-  #       do.call(tagList, plot_output_list_activities)
-  #       
-  #     } else {
-  #       NULL
-  #     }
-  #     
-  #   })
-  #   
-  # })
   
   # Create plot tag list and create leaflet outputs for each value selected ----
   observeEvent(input$nextspatial, {
@@ -1157,20 +1034,6 @@ server = function(input, output, session) {
     
     # Save polygons clicked - write to dropbox and googledrive ----
     observeEvent(input$submit, {
-      # this only works up here for some reason ----
-      
-      if (is.null(input$visited)){
-        
-        shinyalert(
-          "Please answer the 'Have you ever visited a marine park...' question",
-          type = "error",
-          timer = 3000,
-          closeOnEsc = TRUE,
-          closeOnClickOutside = TRUE
-        )
-        
-      } else {
-      
       # Add modal to say submitting ----
       shinyalert(
       title = "Submitting your answers...",
@@ -1180,13 +1043,10 @@ server = function(input, output, session) {
       closeOnClickOutside = FALSE,
       imageUrl = "https://cutewallpaper.org/21/loading-gif-transparent-background/Tag-For-Loading-Bar-Gif-Transparent-Loading-Gif-.gif",
       html = FALSE,
-      # type = "warning",
       showConfirmButton = FALSE,
       timer = 0,
       animation = FALSE
     )
-      
-      # Sys.sleep(5)
 
       # Create a unique UserID ----
       userID <- randomID(1)
@@ -1196,12 +1056,9 @@ server = function(input, output, session) {
                           humanTime(),
                           userID)
       
-      # Get source from url
+      # Get source from url -----
       print("URL source")
       urlsource <- urlsource() %>% glimpse()
-      
-      # combine lists together ----
-      # print("all clicks")
       
       click.cols <- c(category = NA_real_,
                     subcategory = NA_real_,
@@ -1234,16 +1091,13 @@ server = function(input, output, session) {
       print("all data")
       data <- as.data.frame(do.call(cbind, data)) %>% distinct() %>% glimpse()
       
-      vis.cols <- c(visited = NA_real_,
-                    name = NA_real_,
+      vis.cols <- c(name = NA_real_,
                     email = NA_real_,
                     phone = NA_real_,
                     residence = NA_real_, 
                     postcode = NA_real_,
                     gender = NA_real_,
-                    age = NA_real_,
-                    frequency = NA_real_)
-
+                    age = NA_real_)
       
       # Get basic question answers (contact) ----
       print("metadata")
@@ -1255,9 +1109,7 @@ server = function(input, output, session) {
                       residence,
                       postcode,
                       gender,
-                      age,
-                      visited,
-                      frequency) %>%
+                      age) %>%
         mutate(userID = userID) %>%
         distinct() %>%
         mutate(source = urlsource) %>%
@@ -1267,10 +1119,8 @@ server = function(input, output, session) {
       print("activities")
       activities <- data %>%
         add_column(!!!vis.cols[!names(vis.cols) %in% names(.)]) %>%
-        # glimpse() %>%
-        dplyr::select(!c(name, email, phone, residence, postcode, gender, age, visited, frequency)) %>%
+        dplyr::select(!c(name, email, phone, residence, postcode, gender, age)) %>%
         distinct() %>%
-        #glimpse() %>%
         mutate(blank_activities = "blank") %>% # create a dummy column so gather works
         tidyr::gather(., "question", "answer", 1:ncol(.)) %>%
         separate(
@@ -1288,39 +1138,17 @@ server = function(input, output, session) {
         dplyr::filter(!answer%in%c("blank")) %>%
         glimpse()
       
-      time.cols <- c(
-        Summer = NA_real_,
-        Autumn = NA_real_,
-        Winter = NA_real_,
-        Spring = NA_real_
-      )
-      
-      print("time")
-      time <- activities %>%
-        dplyr::filter(question %in% c("time")) %>%
-        dplyr::mutate(value = "TRUE") %>%
-        distinct() %>%
-        tidyr::spread(., answer, value) %>%
-        mutate(userID = userID) %>%
-        dplyr::select(-c(question)) %>%
-        add_column(!!!time.cols[!names(time.cols) %in% names(.)]) %>%
-        glimpse()
-      
       activities <- activities %>%
-        dplyr::filter(!question %in% c("time")) %>%
         distinct() %>%
         tidyr::spread(., question, answer) %>%
         mutate(userID = userID) %>%
-        left_join(., time) %>%
         glimpse()
-      
       
       q.cols <- c(activity.or.value = NA_real_, 
                   category = NA_real_, 
                   subcategory = NA_real_, 
                   activity = NA_real_, 
                   description = NA_real_,
-                  days = NA_real_,
                   source = NA_real_)
       
       data <- left_join(metadata, activities) %>%
@@ -1333,67 +1161,22 @@ server = function(input, output, session) {
           postcode,
           gender,
           age,
-          frequency,
-          visited,
           userID,
           activity.or.value,
           category,
           subcategory,
           activity,
           description,
-          days,
-          Summer,
-          Autumn,
-          Winter,
-          Spring,
           source
         ) %>%
         mutate(time = humanTime()) %>%
         mutate(timezone = str_replace_all(Sys.timezone(), c("[^[:alnum:]]" = ".")))# %>%
         #glimpse()
       
-      # write.csv(x = data, file = file.path(responsesDir, paste("answers", fileName, sep = "_")),
-      #           row.names = FALSE, quote = TRUE)
-      
       # Write answers to database ----
       # saveData(data, "answers")
       
       write.csv(x = data, file = file.path(answersdir, paste("answers", fileName, sep = "_")),
-                row.names = FALSE, quote = TRUE)
-      
-      # Create a bunch of empty dataframes so that the data will save even if these questions are skipped
-      
-      matrix9blank <- data.frame(X. = NA,
-                                 stringsAsFactors = FALSE)
-      
-      matrix9 <-
-        bind_rows(matrix9blank, as.data.frame(input$rm9)) %>% # The current level of protection and management of marine areas in the South Coast is sufficient to guarantee conservation of marine ecosystems
-        dplyr::rename(The.current.level.of.protection.and.management.guarantee.conservation = X.)
-      
-      matrix10 <- input$rm10 #%>% glimpse()
-      matrix11 <- input$rm11 #%>% glimpse()
-      matrix12 <- input$rm12 #%>% glimpse()
-      
-      matrix.answers <-
-        bind_cols(matrix9, matrix10, matrix11, matrix12) %>%
-        #glimpse() %>%
-        pivot_longer(
-          .,
-          cols = 1:ncol(.),
-          names_to = "value",
-          values_to = "response"
-        ) %>%
-        dplyr::mutate(userID = userID) %>%
-        dplyr::filter(!response %in% c(NA)) %>%
-        distinct() %>%
-        mutate(time = humanTime()) %>%
-        mutate(timezone = str_replace_all(Sys.timezone(), c("[^[:alnum:]]" = ".")))# %>%
-        #glimpse()
-
-      # Write answers to database ----
-      # saveData(matrix.answers, "values")
-      
-      write.csv(x = matrix.answers, file = file.path(valuesdir, paste("values", fileName, sep = "_")),
                 row.names = FALSE, quote = TRUE)
       
       shinyjs::runjs("swal.close();")
@@ -1418,8 +1201,6 @@ server = function(input, output, session) {
       )
       
       updateProgressBar(session, "progress", value = 100, total = 100)
-      
-      }
       
     })
     

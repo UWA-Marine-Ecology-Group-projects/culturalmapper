@@ -159,24 +159,6 @@ td {
     width: 100px;
 }
 
-.form-group shiny-radiomatrix-container dataTable-container shiny-bound-input {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-}
-
-.shiny-radiomatrix-row {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-}
-
-.shiny-radiomatrix {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-}
-
 .modal-dialog {
     border-radius: 20px;
 }
@@ -246,18 +228,6 @@ html, body, .test_map_div {
                                                  "55-64",
                                                  "65-74",
                                                  "75+"),
-                                     selected = character(0)),
-                        
-                        h4(strong("Roughly how often do you visit the coastal areas adjacent to Bremer Bay, Hopetoun, Esperance and Eucla (e.g., visit a beach or go out on a boat)?"), labelMandatory("")),
-                        radioButtons("frequency", label = NULL,
-                                     choices = c("Haven't ever visited",
-                                                 "Once every 5+ years",
-                                                 "Once every 3 to 5 years",
-                                                 "Once every 1 to 2 years",
-                                                 "Once a year",
-                                                 "2 to 5 times a year",
-                                                 "More than 5 times a year",
-                                                 "On a weekly basis"),
                                      selected = character(0)),
                         
                         div(style="display:inline-block;width:100%;text-align: center;", 
@@ -449,144 +419,11 @@ html, body, .test_map_div {
                         uiOutput("activity_plots"),
                         uiOutput("values_plots"),
                         div(style="display:inline-block;width:100%;text-align: center;", 
-                            div(
-                              #     column(1,offset=1, actionBttn(
-                              # inputId = "backactivities",
-                              # label = "Back",
-                              # style = "unite",
-                              # icon = icon("chevron-left"),
-                              # color = "primary"
-                              #   )), 
-                              column(1,offset = 10, actionBttn(
-                                inputId = "nextnonspatial",
-                                label = "Next",
-                                style = "unite",
-                                icon = icon("chevron-right"),
-                                color = "primary"
-                              ))))
-               ),
+                            uiOutput("submit")),
+               )
                
-               tabPanel("Social values and benefits",
-                        h1("Social values and benefits"),
-                        br(),
-                        h2(
-                          "Please indicate on the scale below your level of agreement with each of the following statements."),
-                        
-                        h3(em(
-                          "The current level of protection and management of marine areas in the South Coast is sufficient to guarantee conservation of marine ecosystems")),
-                        shinyRadioMatrix::radioMatrixInput(
-                          inputId = "rm9",
-                          rowIDsName = paste(" "),
-                          rowIDs = paste(" "),
-                          rowLLabels = c("Strongly disagree"),
-                          rowRLabels = c("Strongly agree"),
-                          labelsWidth = list("10%", "10%"),
-                          choices = c("1", "2", "3", "4", "5", "6", "7")
-                        ),
-                        br(),
-                        
-                        h3(em(
-                          "The marine areas in the South Coast adjacent to Bremer Bay, Hopetoun, Esperance and Eucla provide", strong("me"), "with the following", strong("opportunities or benefits"))
-                        ),
-                        
-                        shinyRadioMatrix::radioMatrixInput(
-                          inputId = "rm10",
-                          rowIDsName = paste("                                                                                     "),
-                          rowIDs = c(unique(
-                            filter(matrix.data, question.number %in% c("10"))$response.items.for.matrix.only
-                          )),
-                          rowLLabels = c(rep(
-                            "Strongly disagree", length(unique(
-                              filter(matrix.data, question.number %in% c("10"))$response.items.for.matrix.only
-                            ))
-                          )),
-                          rowRLabels = c(rep("Strongly agree", length(
-                            unique(
-                              filter(matrix.data, question.number %in% c("10"))$response.items.for.matrix.only
-                            )
-                          ))),
-                          choices = c(unique(
-                            filter(response.scales, scale.name %in% c("agree"))$response.options
-                          )),
-                          labelsWidth = list('0%', '0%')
-                        ),
-                        
-                        br(),
-                        
-                        h3(em("The marine areas in the South Coast adjacent to Bremer Bay, Hopetoun, Esperance and Eucla provide the following", strong("benefits to society"))
-                        ),
-                        shinyRadioMatrix::radioMatrixInput(
-                          inputId = "rm11",
-                          rowIDsName = paste("                                                                                     "),
-                          rowIDs = c(unique(
-                            filter(matrix.data, question.number %in% c("11"))$response.items.for.matrix.only
-                          )),
-                          rowLLabels = c(rep(
-                            "Strongly disagree", length(unique(
-                              filter(matrix.data, question.number %in% c("11"))$response.items.for.matrix.only
-                            ))
-                          )),
-                          rowRLabels = c(rep("Strongly agree", length(
-                            unique(
-                              filter(matrix.data, question.number %in% c("11"))$response.items.for.matrix.only
-                            )
-                          ))),
-                          choices = c(unique(
-                            filter(response.scales, scale.name %in% c("agree"))$response.options
-                          )),
-                          labelsWidth = list('0%', '0%')
-                        ),
-                        
-                        br(),
-                        div(style="margin-left: 30px;",
-                            h4(strong("Have you ever visited a marine park in Western Australia?"), labelMandatory("")),
-                            div(style="margin-left: 30px;",
-                                radioButtons(
-                                  "visited",
-                                  label = NULL,
-                                  choices = c("Yes",
-                                              "No",
-                                              "Unsure"),
-                                  selected = character(0)
-                                ))),
-                        br(),
-                        
-                        shinyRadioMatrix::radioMatrixInput(
-                          inputId = "rm12",
-                          rowIDsName = " ",
-                          rowIDs = c(unique(
-                            filter(matrix.data, question.number %in% c("12"))$response.items.for.matrix.only
-                          )),
-                          rowLLabels = c(" "),
-                          choices = c(unique(
-                            filter(response.scales, scale.name %in% c("awareness"))$response.options
-                          )),
-                          labelsWidth = list("10%", "10%")
-                        ),
-                        
-                        # shinyRadioMatrix::radioMatrixInput(
-                        #   inputId = "visited",
-                        #   rowIDsName = " ",
-                        #   rowIDs = c("Have you ever visited a marine park in Western Australia?"),
-                        #   rowLLabels = c(" "),
-                        #   choices = c("Yes", "No"),
-                        #   labelsWidth = list("10%", "10%")
-                        # ),
-                        
-                        br(),
-                        
-                        
-                        
-                        div(style="display:inline-block;width:100%;text-align: center;", 
-                            div(column(1,offset=1, actionBttn(
-                              inputId = "backspatial",
-                              label = "Back",
-                              style = "unite",
-                              icon = icon("chevron-left"),
-                              color = "primary"
-                            )), 
-                            column(1,offset=8,uiOutput("submit"))
-                            )))),
+               
+               ),
         progressBar(id = "progress", value=0, total=100, display_pct = FALSE, title = "Progress")
       )
     )

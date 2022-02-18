@@ -25,7 +25,6 @@ library(shinydisconnect)
 library(shinyjs)
 library(shinysurveys)
 library(shinyFeedback)
-library(shinyRadioMatrix)
 library(shinyTree)
 library(shinyWidgets)
 library(shinyvalidate) # NEW
@@ -36,7 +35,6 @@ library(rrapply)
 library(stringi)
 library(ggplot2)
 library(dplyr) # load last to stop issues with plyr 
-library(profvis)
 
 ## Themes ----
 blank_theme <- theme_minimal()+
@@ -67,14 +65,10 @@ cultural_list <- cultural_values %>%
   dplyr::mutate(Sub.category = stringr::str_replace_all(.$Sub.category, c("," = "", "[^[:alnum:]]" = "_", "___" = "_","__" = "_", "\\_$" = ""))) %>%
   dplyr::mutate(Activity = stringr::str_replace_all(.$Activity, c("," = "", "[^[:alnum:]]" = "_", "___" = "_", "__" = "_", "\\_$" = ""))) %>%
   tidyr::replace_na(list(c(Category = "NA"))) %>%
-  # dplyr::mutate(Activity = if_else(is.na(Activity), "NA", (Activity))) %>%
   dplyr::mutate(input.suffix = if_else(is.na(Activity), paste(tolower(Category), tolower(Sub.category), "NA", sep = "__"), paste(tolower(Category), tolower(Sub.category), tolower(Activity), sep = "__"))) %>%
   dplyr::mutate(days = paste("days__values",input.suffix, sep = "__")) %>%
   dplyr::mutate(time = paste("time__values",input.suffix, sep = "__")) %>%
   dplyr::mutate(description = paste("description__values",input.suffix, sep = "__"))
-
-
-test<- cultural_list %>% filter(is.na(Activity))
 
 days_inputs <- (unique(cultural_list$days))
 time_inputs <- (unique(cultural_list$time))
@@ -123,18 +117,6 @@ unique(cultural_acc$checkbox)
 
 ## Read in response scales ----
 response.scales <- read.csv("data/Activity list - Response scales.csv", na.strings=c("","NA"))
-
-## Read in questions (only using this in the matrix style so far) ----
-questions <- read.csv("data/Activity list - questions.csv", na.strings=c("","NA")) %>%
-  dplyr::select(section, question, type, response.items.for.matrix.only, scale.name, question.number)%>%
-  mutate(question.number = as.character(question.number))
-
-matrix.data <- questions %>%
-  filter(type%in%c("matrix")) %>%
-  dplyr::select(question.number,response.items.for.matrix.only)
-
-# Group responses into a list for matrix
-matrix.questions <- rrapply(cbind(matrix.data), how = "unmelt")
 
 # grid.2.5 <- readOGR(dsn="spatial/intersections/2.5 km_whole hexagons_regions.shp", layer="2.5 km_whole hexagons_regions")
 # save(grid.2.5, file = "spatial/intersections/grid.2.5.rda")
@@ -185,13 +167,6 @@ regionbounds <- regions %>%
   st_bbox() %>% 
   as.character()
 
-# grid.2.5$area_sqkm <- area(grid.2.5) / 1000000
-# summary(grid.2.5$area_sqkm)
-
-unique(bathy@data$LABEL)
-
-# bathy <- bathy[!bathy@data$LABEL %in% c("ISLAND"),] # , "1000-2000m", "2000-5000m", "> 5000m"
-
 bathy.pal <- colorFactor(palette = "Blues", 
                          levels = c("0-10m","10-20m","20-50m","50-100m","100-200m","200-500m","500-1000m"))
 
@@ -217,30 +192,11 @@ SpP = SpatialPolygonsDataFrame(
   match.ID = FALSE
 )
 
-
 # regions pallete
-
-
-# regpal <- colorFactor(palette = c("#ef476f","#ffd166","#06d6a0","#118ab2","#073b4c"), levels = regions@data$Reg)
-
 regpal <- colorFactor(palette = c("#F83D41","#FD5E53","#FFAE41","#FF9506","#FF5E01"), levels = regions@data$Reg) # oranges and reds
 
-# regpal <- colorFactor(palette = c("#F83D41", "#FF9506", "#FD5E53", "#FF5E01", "#FFAE41"), levels = regions@data$Reg) # oranges and reds, ordered
-
-# regpal <- colorFactor(palette = c("#4DE88B","#E8D94D","#E8D94D","#4DE88B","#4DE88B"), levels = regions@data$Reg) # yellow and green
-
-# regpal <- colorFactor(palette = c("#F5B859","#F5B859","#F5B859","#F5B859","#F5B859"), levels = regions@data$Reg) # all orange
-#4DE88B - green
-#E8D94D - yellow
-
-# "BRE" - green - 1
-# "CLG" - yellow - 4
-# "STO" - yellow - 2
-# "EAS" - green - 5
-# "ESP" - green - 3
-
 # which fields get saved ----
-fieldsAll <- c("name", "email", "phone", "residence","postcode", "gender", "age", "frequency", cultural_input_list, "visited")
+fieldsAll <- c("name", "email", "phone", "residence","postcode", "gender", "age", cultural_input_list)
 
 # which fields are mandatory ----
 fieldsMandatory <- c("name", "email", "phone", "residence", "gender", "age")
