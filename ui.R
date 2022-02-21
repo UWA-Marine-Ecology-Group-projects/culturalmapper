@@ -3,9 +3,10 @@ function(request) {
     dashboardHeader(titleWidth = "0px",#disable = TRUE
                     # title = "South Coast Marine Values Mapper",
                     tags$li(class = "dropdown",
-                            tags$a(href="https://www.dbca.wa.gov.au/", target="_blank", 
-                                   tags$img(height = "70px", alt="logo", src="dbca_logo_white.png")
-                            ))#,
+                            tags$a(href="https://etntac.com.au/", target="_blank", 
+                                   tags$img(height = "70px", alt="logo", src="etntac-logo.svg")
+                            )
+                            )#,
                     #titleWidth = 1
     ),
     dashboardSidebar(width = "0px"),
