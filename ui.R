@@ -29,7 +29,7 @@ function(request) {
       
       tags$script(HTML('
       $(document).ready(function() {
-        $("header").find("nav").append(\'<span class="myClass"> <b> South Coast Marine Values Mapper </b> </span>\');
+        $("header").find("nav").append(\'<span class="myClass"> <b> Cultural Mapper </b> </span>\');
       })
      ')),
       

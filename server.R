@@ -1078,9 +1078,9 @@ server = function(input, output, session) {
       
       # Write polygons to database ----
       # saveData(clicks, "polygons")
-
-      write.csv(x = clicks, file = file.path(polygonsdir, paste("polygons", fileName, sep = "_")),
-                row.names = FALSE, quote = TRUE)
+# 
+#       write.csv(x = clicks, file = file.path(polygonsdir, paste("polygons", fileName, sep = "_")),
+#                 row.names = FALSE, quote = TRUE)
       
       # Get responses to all other questions - write to dropbox and googledrive ----
       fieldsAll <- c(fieldsAll)
@@ -1175,9 +1175,17 @@ server = function(input, output, session) {
       
       # Write answers to database ----
       # saveData(data, "answers")
+      # 
+      # write.csv(x = data, file = file.path(answersdir, paste("answers", fileName, sep = "_")),
+      #           row.names = FALSE, quote = TRUE)
       
-      write.csv(x = data, file = file.path(answersdir, paste("answers", fileName, sep = "_")),
-                row.names = FALSE, quote = TRUE)
+      # append to googledrive ----
+      data.gs <- data %>% as.list() %>% data.frame()
+      sheet_append("1r0TeyUmFfE6bvqZpPFMmjQ1M7Jduhp3JtTqjIrvCx2g", sheet = 1, data = data.gs)
+      
+      # append to googledrive ----
+      clicks.gs <- clicks %>% as.list() %>% data.frame()
+      sheet_append("1r0TeyUmFfE6bvqZpPFMmjQ1M7Jduhp3JtTqjIrvCx2g", sheet = 2, data = clicks.gs)
       
       shinyjs::runjs("swal.close();")
       

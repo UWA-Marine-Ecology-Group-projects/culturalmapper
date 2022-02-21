@@ -36,6 +36,8 @@ library(stringi)
 library(ggplot2)
 library(dplyr) # load last to stop issues with plyr 
 
+gs4_auth(cache = "secrets", email = TRUE)
+
 ## Themes ----
 blank_theme <- theme_minimal()+
   theme(
