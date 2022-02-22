@@ -201,6 +201,17 @@ html, body, .test_map_div {
                         
                         # DEMOGRAPHICS ----
                         h2("Demographics:"),
+                        
+                        h4(strong("Family Group:"), labelMandatory("")),
+                        radioButtons("family", label = NULL,
+                                     choices = c("Dabb",
+                                                 "Reynolds",
+                                                 "Bullen",
+                                                 "Boxer/Rogers",
+                                                 "Tucker",
+                                                 "Yorkshire/Knapp"),
+                                     selected = character(0)),
+                        
                         h4(strong("Usual place of residence:"), labelMandatory("")),
                         radioButtons("residence", label = NULL,
                                      choices = c("Australia",

@@ -126,10 +126,19 @@ response.scales <- read.csv("data/Activity list - Response scales.csv", na.strin
 # save(bathy, file = "spatial/intersections/bathy.rda")
 # regions <- readOGR(dsn="spatial/regions_outline.shp", layer="regions_outline")
 # save(regions, file = "spatial/intersections/regions.rda")
+# regions <- readOGR(dsn="spatial/regions.shp", layer="regions")
+# save(regions, file = "spatial/regions.rda")
 
 # bathy_test <- st_read("./spatial/Bath_matt4.shp") #Matt's approach
 # bathy_test <-sf::st_cast(bathy_test, "POLYGON")
 # save(bathy_test, file = "spatial/intersections/bathy.rda")
+
+# # extra grids for cultural
+# cultural.grid <- readOGR(dsn="spatial/intersections/2.5 km_whole hexagons_state_to_200m_with_regions.shp", layer="2.5 km_whole hexagons_state_to_200m_with_regions")
+# save(cultural.grid, file = "spatial/intersections/cultural.grid.rda")
+# # estuaries grids
+# estuaries.grid <- readOGR(dsn="spatial/estuaries.shp", layer="estuaries")
+# save(estuaries.grid, file = "spatial/intersections/estuaries.grid.rda")
 
 placenames <- st_read(dsn = "spatial/Esp_PlaceNames.shp")
 
@@ -163,7 +172,9 @@ towns <- labels %>%
 # Read in spatial files ----
 load("spatial/intersections/grid.2.5.rda")
 load("spatial/intersections/bathy.rda")
-load("spatial/intersections/regions.rda")
+load("spatial/regions.rda")
+load("spatial/intersections/cultural.grid.rda")
+load("spatial/intersections/estuaries.grid.rda")
 
 regionbounds <- regions %>% 
   st_bbox() %>% 
@@ -176,23 +187,49 @@ bathy$LABEL <- factor(bathy$LABEL,
                       levels = c("0-10m","10-20m","20-50m","50-100m","100-200m","200-500m","500-1000m"))
 
 # Grids for spatial questions ----
-SpP <- SpatialPolygons(grid.2.5@polygons)
+state <- SpatialPolygons(grid.2.5@polygons)
+commonwealth <- SpatialPolygons(cultural.grid@polygons)
+estuaries <- SpatialPolygons(estuaries.grid@polygons)
 
-SpP1 <- SpP[1:1181,]
-SpP2 <- SpP[1182:2362,]
-SpP3 <- SpP[2363:3544,]
-
-SpP = SpatialPolygonsDataFrame(
-  SpP,
-  data = data.frame(ID = as.character(c(1:(
-    length(SpP@polygons)
+SpP.state = SpatialPolygonsDataFrame(
+  state,
+  data = data.frame(ID = paste("state",as.character(c(1:(
+    length(state@polygons))
   ))),
   reg = grid.2.5$Reg,
   display = c(1:(
-    length(SpP@polygons)
+    length(state@polygons)
   ))),
   match.ID = FALSE
 )
+
+SpP.commonwealth = SpatialPolygonsDataFrame(
+  commonwealth,
+  data = data.frame(ID = paste("commonwealth",as.character(c(1:(
+    length(commonwealth@polygons))
+  ))),
+  reg = cultural.grid$Reg,
+  display = c(1:(
+    length(commonwealth@polygons)
+  ))),
+  match.ID = FALSE
+)
+
+SpP.estuaries = SpatialPolygonsDataFrame(
+  estuaries,
+  data = data.frame(ID = paste("estuaries",as.character(c(1:(
+    length(estuaries@polygons))
+  ))),
+  reg = estuaries.grid$Reg,
+  display = c(1:(
+    length(estuaries@polygons)
+  ))),
+  match.ID = FALSE
+)
+
+nrow(SpP.commonwealth) + nrow(SpP.state) + nrow(SpP.estuaries)
+
+SpP <- rbind(SpP.state, SpP.commonwealth, SpP.estuaries)
 
 # regions pallete
 regpal <- colorFactor(palette = c("#F83D41","#FD5E53","#FFAE41","#FF9506","#FF5E01"), levels = regions@data$Reg) # oranges and reds
