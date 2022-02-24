@@ -1,14 +1,24 @@
 function(request) {
   dashboardPage(
     dashboardHeader(titleWidth = "0px",#disable = TRUE
-                    # title = "South Coast Marine Values Mapper",
                     tags$li(class = "dropdown",
-                            tags$a(href="https://etntac.com.au/", target="_blank", 
-                                   tags$img(height = "70px", alt="logo", src="etntac-logo.svg")
-                            )
-                            )#,
-                    #titleWidth = 1
-    ),
+                            a(href="https://www.dbca.wa.gov.au/", target="_blank", 
+                              img(#width = "10%", 
+                                height = "70px", 
+                                src="dbca_logo_white.png")
+                            )),
+                    tags$li(a(href = 'https://marineecology.io/', target="_blank", 
+                              img(src = 'https://github.com/UWAMEGFisheries/UWAMEGFisheries.github.io/blob/master/images/MEG-white.png?raw=true',
+                                  title = "Marine Ecology Group", 
+                                  # width = "10%", 
+                                  height = "70px")
+                    ), class = "dropdown"),
+                    tags$li(a(href = 'https://etntac.com.au/', target="_blank", 
+                              img(src = 'etntac-logo-white.png',
+                                  title = "ETNTAC", 
+                                  #width = "20%", 
+                                  height = "70px")
+                    ), class = "dropdown")),
     dashboardSidebar(width = "0px"),
     dashboardBody(
       tags$head(tags$style(HTML(
