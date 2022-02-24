@@ -151,29 +151,6 @@ server = function(input, output, session) {
                  )
                  )
                  
-                 # shinyalert(
-                 #   title = "Values Mapping Instructions",
-                 #   html = TRUE,
-                 #   text =  tagList(
-                 #     "Use this section to map your use and local knowledge of the marine environment on the South Coast",
-                 #     br(),
-                 #     br(),
-                 #     h6(strong("There are 3 steps:")),
-                 #     tags$ol(
-                 #     tags$li("Indicate broadly in which areas you would like to map your use or local knowledge"), 
-                 #     br(),
-                 #     tags$li("Indicate which activities and local knowledge topics you would like to map"), 
-                 #     br(),
-                 #     tags$li("Map your use or local knowledge on the maps provided (next page)"))),
-                 #   
-                 #   size = "s",
-                 #   closeOnEsc = FALSE,
-                 #   closeOnClickOutside = FALSE,
-                 #   type = "info",
-                 #   showConfirmButton = TRUE,
-                 #   timer = 0,
-                 #   animation = TRUE
-                 # )
                })
   
   observeEvent(input$oki, {
@@ -639,16 +616,14 @@ server = function(input, output, session) {
                 scrollWheelZoom = FALSE
               )
             ) %>%
-              # suspendScroll(hoverToWake = TRUE, wakeTime = 900, sleepTime = 800, wakeMessage = "Hover or click to wake") %>%
               addmouselatlon() %>%
-              # addProviderTiles(
-              #   'Esri.WorldImagery',
-              #   group = "World Imagery",
-              #   options = providerTileOptions(minZoom = 8, maxZoom = 14)
-              # ) %>%
+              addProviderTiles(
+                'Esri.WorldImagery',
+                group = "World Imagery",
+                options = providerTileOptions(minZoom = 8, maxZoom = 14)
+              ) %>%
               addTiles(group = "Open Street Map",
                         options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>% 
-              # addTiles(urlTemplate = "/mytiles/{z}_{x}_{y}.png", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
 
               fitBounds(bounds[1], bounds[2], bounds[3], bounds[4]) %>%
               
@@ -729,9 +704,8 @@ server = function(input, output, session) {
               options = leafletOptions(zoomControl = TRUE, dragging = TRUE)
             ) %>%
               addmouselatlon() %>%
-              addProviderTiles('Esri.WorldImagery', group = "World Imagery") %>%
-              addTiles() %>% #group = "Open Street Map"
-              addTiles(urlTemplate = "/mytiles/{z}_{x}_{y}.png", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
+              addProviderTiles('Esri.WorldImagery', group = "World Imagery", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
+              addTiles(group = "Open Street Map", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>% 
               fitBounds(bounds[1], bounds[2], bounds[3], bounds[4]) %>%
               
               addMapPane("bathymetry", zIndex = 400) %>%
@@ -852,186 +826,6 @@ server = function(input, output, session) {
     
   })
   
-  # observeEvent(input$nextactivities, {
-  # 
-  #   # change polygon colours when clicked ----
-  #   observe ({
-  #     activities.selected <- selected.data() %>%
-  #       filter(!category %in% c("local_knowledge"))
-  #     
-  #     no.selected.activities <- nrow(activities.selected)
-  #     
-  #     lapply(1:no.selected.activities, function(i) {
-  #       dat <- activities.selected %>%
-  #         slice(i)
-  #       
-  #       category <- unique(dat$category)
-  #       subcategory <- unique(dat$subcategory)
-  #       activity <- unique(dat$activity)
-  #       
-  #       plotname <-
-  #         paste("plot_activity", category, subcategory, activity, sep = "_")
-  #       
-  #       rv <- SpP[SpP@data$reg %in% c(unique(regionlist()$id)),]
-  #       
-  #       observeEvent(input[[paste0(plotname, "_shape_click", sep = "")]], {
-  #         # execute only if the polygon has never been clicked
-  #         if (input[[paste0(plotname, "_shape_click", sep = "")]]$group == "unclicked_poly") {
-  #           #print("selected ID")
-  #           selected.id <- input[[paste0(plotname, "_shape_click", sep = "")]] #%>%
-  #             #glimpse()
-  #           
-  #           #print("selected")
-  #           data <- rv[rv$ID == selected.id$id, ]
-  #           
-  #           change_color(
-  #             map = plotname,
-  #             id_to_remove =  selected.id$id,
-  #             data = data,
-  #             colour = "#F1BA33",
-  #             new_group = "clicked1_poly"
-  #           )
-  #           
-  #           
-  #           
-  #         } else {
-  #           selected.id <- input[[paste0(plotname, "_shape_click", sep = "")]]
-  #           data <- rv[rv$ID == selected.id$id, ]
-  #           
-  #           leafletProxy(plotname) %>%
-  #           removeShape(selected.id$id) %>% # remove previous occurrence
-  #           addPolygons(
-  #             data = data,
-  #             layerId = data$ID,
-  #             group = "unclicked_poly",
-  #             fillColor = "white",
-  #             fillOpacity = 0.2,
-  #             color = "red",
-  #             weight = 1,
-  #             options = pathOptions(pane = "polygons")
-  #           )  # back to initialize group
-  #           
-  #         }
-  #       })
-  #       
-  #       # Add labels to map ----
-  #       observeEvent(
-  #         eventExpr = input[[paste0(plotname, "_zoom", sep = "")]], {
-  #           
-  #           print(unique(regionlist()$id))
-  #           on.14 <- on.14 %>% filter(Region %in% c(unique(regionlist()$id)))
-  #           on.12 <- on.12 %>% filter(Region %in% c(unique(regionlist()$id)))
-  #           on.10 <- on.10 %>% filter(Region %in% c(unique(regionlist()$id)))
-  #           
-  #           # Bigger number = more zoomed in
-  #           if(input[[paste0(plotname, "_zoom", sep = "")]] >= 14){
-  #             leafletProxy(
-  #               mapId = plotname, 
-  #               session = session) %>% 
-  #               clearMarkers() %>%
-  #               addLabelOnlyMarkers(lng = on.14$X, 
-  #                                   lat = on.14$Y,
-  #                                   group = "Detailed labels",
-  #                                   labelOptions = labelOptions(noHide = T, 
-  #                                                               textsize = "12px", 
-  #                                                               textOnly = TRUE),
-  #                                   label = on.14$Name) %>%
-  #               addLabelOnlyMarkers(lng = on.12$X, 
-  #                                   lat = on.12$Y,
-  #                                   group = "Detailed labels",
-  #                                   labelOptions = labelOptions(noHide = T, 
-  #                                                               textsize = "12px", 
-  #                                                               textOnly = TRUE),
-  #                                   label = on.12$Name) %>%
-  #               addLabelOnlyMarkers(lng = on.10$X, 
-  #                                   lat = on.10$Y,
-  #                                   group = "Detailed labels",
-  #                                   labelOptions = labelOptions(noHide = T, 
-  #                                                               textsize = "12px", 
-  #                                                               textOnly = TRUE),
-  #                                   label = on.10$Name) %>%
-  #               addLayersControl(
-  #                 baseGroups = c("Open Street Map", "World Imagery"),
-  #                 overlayGroups = c("Depth", "Detailed labels"),
-  #                 options = layersControlOptions(collapsed = FALSE))
-  #             
-  #           } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 12) {
-  #             
-  #             leafletProxy(
-  #               mapId = plotname, 
-  #               session = session) %>% 
-  #               clearMarkers() %>%
-  #               addLabelOnlyMarkers(lng = on.12$X, 
-  #                                   lat = on.12$Y,
-  #                                   group = "Detailed labels",
-  #                                   labelOptions = labelOptions(noHide = T, 
-  #                                                               textsize = "12px", 
-  #                                                               textOnly = TRUE),
-  #                                   label = on.12$Name)%>%
-  #               addLabelOnlyMarkers(lng = on.10$X, 
-  #                                   lat = on.10$Y,
-  #                                   group = "Detailed labels",
-  #                                   labelOptions = labelOptions(noHide = T, 
-  #                                                               textsize = "12px", 
-  #                                                               textOnly = TRUE),
-  #                                   label = on.10$Name) %>%
-  #               addLayersControl(
-  #                 baseGroups = c("Open Street Map", "World Imagery"),
-  #                 overlayGroups = c("Depth", "Detailed labels"),
-  #                 options = layersControlOptions(collapsed = FALSE))
-  #             
-  #           } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 10) {
-  #             
-  #             leafletProxy(
-  #               mapId = plotname, 
-  #               session = session) %>% 
-  #               clearMarkers() %>%
-  #               addLabelOnlyMarkers(lng = on.10$X, 
-  #                                   lat = on.10$Y,
-  #                                   group = "Detailed labels",
-  #                                   labelOptions = labelOptions(noHide = T, 
-  #                                                               textsize = "12px", 
-  #                                                               textOnly = TRUE),
-  #                                   label = on.10$Name) %>%
-  #               addLayersControl(
-  #                 baseGroups = c("Open Street Map", "World Imagery"),
-  #                 overlayGroups = c("Depth", "Detailed labels"),
-  #                 options = layersControlOptions(collapsed = FALSE))
-  #             
-  #           } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 8) {
-  #             
-  #             leafletProxy(
-  #               mapId = plotname, 
-  #               session = session) %>% 
-  #               clearMarkers() %>%
-  #               addLabelOnlyMarkers(lng = on.8$X, 
-  #                                   lat = on.8$Y,
-  #                                   group = "Detailed labels",
-  #                                   labelOptions = labelOptions(noHide = T, 
-  #                                                               textsize = "12px", 
-  #                                                               textOnly = TRUE),
-  #                                   label = on.8$Name) %>%
-  #               addLabelOnlyMarkers(lng = towns$X, 
-  #                                   lat = towns$Y,
-  #                                   group = "Town labels",
-  #                                   labelOptions = labelOptions(noHide = T, 
-  #                                                               textsize = "12px", 
-  #                                                               textOnly = TRUE),
-  #                                   label = towns$Name) %>%
-  #               addLayersControl(
-  #                 baseGroups = c("Open Street Map", "World Imagery"),
-  #                 overlayGroups = c("Depth", "Town labels" ,"Detailed labels"),
-  #                 options = layersControlOptions(collapsed = FALSE))
-  #           }
-  #         }
-  #       )
-  #     })
-  #   })
-    
-
-    
- 
-    
     # Save polygons clicked - write to dropbox and googledrive ----
     observeEvent(input$submit, {
       # Add modal to say submitting ----
