@@ -3,28 +3,28 @@ function(request) {
     dashboardHeader(titleWidth = "0px",#disable = TRUE
                     tags$li(class = "dropdown",
                             a(href="https://www.dbca.wa.gov.au/", target="_blank", 
-                              img(#width = "10%", 
-                                height = "70px", 
+                              img(#width = "100%", 
+                                height = "50px", 
                                 src="dbca_logo_white.png")
                             )),
-                    tags$li(a(href = 'https://marineecology.io/', target="_blank", 
-                              img(src = 'https://github.com/UWAMEGFisheries/UWAMEGFisheries.github.io/blob/master/images/MEG-white.png?raw=true',
-                                  title = "Marine Ecology Group", 
-                                  # width = "10%", 
-                                  height = "70px")
-                    ), class = "dropdown"),
+                    # tags$li(a(href = 'https://marineecology.io/', target="_blank",
+                    #           img(src = 'https://github.com/UWAMEGFisheries/UWAMEGFisheries.github.io/blob/master/images/MEG-white.png?raw=true',
+                    #               title = "Marine Ecology Group",
+                    #               # width = "10%",
+                    #               height = "50px")
+                    #           ), class = "dropdown"),
                     tags$li(a(href = 'https://etntac.com.au/', target="_blank", 
                               img(src = 'etntac-logo-white.png',
                                   title = "ETNTAC", 
                                   #width = "20%", 
-                                  height = "70px")
+                                  height = "50px")
                     ), class = "dropdown")),
     dashboardSidebar(width = "0px"),
     dashboardBody(
       tags$head(tags$style(HTML(
         '.myClass { 
-        font-size: 25px;
-        line-height: 100px;
+        font-size: 20px;
+        line-height: 50px;
         text-align: left;
         font-family: "Source Sans Pro",sans-serif;
         padding: -0 10px;
@@ -40,7 +40,7 @@ function(request) {
       
       tags$script(HTML('
       $(document).ready(function() {
-        $("header").find("nav").append(\'<span class="myClass"> <b> Cultural Mapper </b> </span>\');
+        $("header").find("nav").append(\'<span class="myClass"> <b> Esperance Tjaltrkraak Mapper </b> </span>\');
       })
      ')),
       
@@ -208,9 +208,8 @@ html, body, .test_map_div {
                         h4(strong("Phone number:"), labelMandatory("")),
                         textInput(width = '94%', "phone", NULL),
                         
-                        
-                        # DEMOGRAPHICS ----
-                        h2("Demographics:"),
+                        h4(strong("What is your home postcode?"), labelMandatory("")),
+                        textInput(width = '100%', "postcode", label = NULL),
                         
                         h4(strong("Family Group:"), labelMandatory("")),
                         radioButtons("family", label = NULL,
@@ -219,18 +218,13 @@ html, body, .test_map_div {
                                                  "Bullen",
                                                  "Boxer/Rogers",
                                                  "Tucker",
-                                                 "Yorkshire/Knapp"),
+                                                 "Yorkshire/Knapp",
+                                                 "Other"),
                                      selected = character(0)),
                         
-                        h4(strong("Usual place of residence:"), labelMandatory("")),
-                        radioButtons("residence", label = NULL,
-                                     choices = c("Australia",
-                                                 "Overseas"),
-                                     selected = character(0)),
-                        
-                        conditionalPanel('input.residence == "Australia"',
-                                         h4(strong("What is your home postcode?"), labelMandatory("")),
-                                         textInput(width = '100%', "postcode", label = NULL)
+                        conditionalPanel('input.family == "Other"',
+                                         h4(strong("Family Group (if other):"), labelMandatory("")),
+                                         textInput(width = '100%', "otherfamily", label = NULL)
                         ),
                         
                         h4(strong("What is your gender?"), labelMandatory("")),
@@ -238,18 +232,6 @@ html, body, .test_map_div {
                                      choices = c("Male",
                                                  "Female",
                                                  "Other"),
-                                     selected = character(0)),
-                        
-                        h4(strong("To which age group do you belong?"), labelMandatory("")),
-                        radioButtons("age", label = NULL,
-                                     choices = c("0-17",
-                                                 "18-24",
-                                                 "25-34",
-                                                 "35-44",
-                                                 "45-54",
-                                                 "55-64",
-                                                 "65-74",
-                                                 "75+"),
                                      selected = character(0)),
                         
                         div(style="display:inline-block;width:100%;text-align: center;", 

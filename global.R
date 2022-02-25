@@ -124,7 +124,7 @@ response.scales <- read.csv("data/Activity list - Response scales.csv", na.strin
 # save(grid.2.5, file = "spatial/intersections/grid.2.5.rda")
 # bathy <- readOGR(dsn="spatial/bathyMatt4.shp", layer="bathyMatt4")
 # save(bathy, file = "spatial/intersections/bathy.rda")
-# regions <- readOGR(dsn="spatial/regions_outline.shp", layer="regions_outline")
+# regions <- readOGR(dsn="spatial/extended_regions.shp", layer="extended_regions")
 # save(regions, file = "spatial/intersections/regions.rda")
 # regions <- readOGR(dsn="spatial/regions.shp", layer="regions")
 # save(regions, file = "spatial/regions.rda")
@@ -135,6 +135,7 @@ response.scales <- read.csv("data/Activity list - Response scales.csv", na.strin
 
 # # extra grids for cultural
 # cultural.grid <- readOGR(dsn="spatial/intersections/2.5 km_whole hexagons_state_to_200m_with_regions.shp", layer="2.5 km_whole hexagons_state_to_200m_with_regions")
+# cultural.grid <- readOGR(dsn="spatial/intersections/2.5 km_whole hexagons_state_to_islands_with_regions.shp", layer="2.5 km_whole hexagons_state_to_islands_with_regions")
 # save(cultural.grid, file = "spatial/intersections/cultural.grid.rda")
 # # estuaries grids
 # estuaries.grid <- readOGR(dsn="spatial/estuaries.shp", layer="estuaries")
@@ -235,10 +236,10 @@ SpP <- rbind(SpP.state, SpP.commonwealth, SpP.estuaries)
 regpal <- colorFactor(palette = c("#F83D41","#FD5E53","#FFAE41","#FF9506","#FF5E01"), levels = regions@data$Reg) # oranges and reds
 
 # which fields get saved ----
-fieldsAll <- c("name", "email", "phone", "residence","postcode", "gender", "age", cultural_input_list)
+fieldsAll <- c("name", "email", "phone", "postcode", "family", "gender", cultural_input_list)
 
 # which fields are mandatory ----
-fieldsMandatory <- c("name", "email", "phone", "residence", "gender", "age")
+fieldsMandatory <- c("name", "email", "phone", "family","gender")
 
 # CSS to use in the app ----
 appCSS <-

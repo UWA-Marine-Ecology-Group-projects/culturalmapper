@@ -82,26 +82,14 @@ server = function(input, output, session) {
     )
   })
   
-  # Need to validate postcode, but don't collect a postcode if user is from overseas.
-  # SO, create a dummy postcode 9999 for overseas users
-  observeEvent(input$residence,
-               if (input$residence == "Overseas"){
-                 updateTextInput(session, "postcode", value = "9999")
-               } else {
-                 updateTextInput(session, "postcode", value = NA)
-               }
-  )
-  
   # Only enable nextactivities if all contact info is filled out
   observeEvent(input$nextactivities,
                if (input$name %in% c(NA, '', ' ') |
                    isValidEmail(input$email) %in% c(FALSE) |
                    !nchar(gsub("[^0-9]+", "", input$phone)) == 10 |
-                   is.null(input$residence) | # if not null and all others are filled out, then the next statement will check the postcode format
-                   is.null(input$gender) |
-                   is.null(input$age)
-                   
-                   ) {
+                   !nchar(gsub("[^0-9]+", "", input$postcode)) == 4 |
+                   is.null(input$family) |
+                   is.null(input$gender) ) {
                  
                  shinyalert(
                    "Please fill out all fields",
@@ -113,7 +101,7 @@ server = function(input, output, session) {
                  
                  updateTabsetPanel(session, "surveybox", selected = "Contact information")
                  
-               } else if(!is.null(input$residence) & !nchar(gsub("[^0-9]+", "", input$postcode)) == 4 ) {
+               } else if(input$family == "Other" & input$otherfamily %in% c(NA, '', ' ')) {
                  
                  shinyalert(
                    "Please fill out all fields",
@@ -177,18 +165,28 @@ server = function(input, output, session) {
                  
                } else if (nrow(selected.data()) == 0 & nrow(regionlist()) > 0){
                  shinyalert(
-                   "Please select at least one activitiy",
+                   "Please select at least one value",
                    type = "error",
                    timer = 2000,
                    closeOnEsc = TRUE,
                    closeOnClickOutside = TRUE
                  )
-               } else {
                  
-                 showTab(inputId = "surveybox", target = "Social values and benefits")
-                 updateTabsetPanel(session, "surveybox", selected = "Social values and benefits")
-                 updateProgressBar(session, "progress", value = 75, total = 100)
-                 hideTab(inputId = "surveybox", target = "Values mapping")
+               } else if (nrow(selected.data()) == 0 & nrow(regionlist()) == 0){
+                 shinyalert(
+                   "Please select at least one region and at least one value",
+                   type = "error",
+                   timer = 2000,
+                   closeOnEsc = TRUE,
+                   closeOnClickOutside = TRUE
+                 )
+                 
+               #} else {
+               #   
+               #   showTab(inputId = "surveybox", target = "Social values and benefits")
+               #   updateTabsetPanel(session, "surveybox", selected = "Social values and benefits")
+               #   updateProgressBar(session, "progress", value = 75, total = 100)
+               #   hideTab(inputId = "surveybox", target = "Values mapping")
                  
                  })
   
@@ -620,10 +618,10 @@ server = function(input, output, session) {
               addProviderTiles(
                 'Esri.WorldImagery',
                 group = "World Imagery",
-                options = providerTileOptions(minZoom = 8, maxZoom = 14)
+                options = providerTileOptions(minZoom = 8, maxZoom = 17)
               ) %>%
               addTiles(group = "Open Street Map",
-                        options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>% 
+                        options = providerTileOptions(minZoom = 8, maxZoom = 17)) %>% 
 
               fitBounds(bounds[1], bounds[2], bounds[3], bounds[4]) %>%
               
@@ -704,8 +702,8 @@ server = function(input, output, session) {
               options = leafletOptions(zoomControl = TRUE, dragging = TRUE)
             ) %>%
               addmouselatlon() %>%
-              addProviderTiles('Esri.WorldImagery', group = "World Imagery", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>%
-              addTiles(group = "Open Street Map", options = providerTileOptions(minZoom = 8, maxZoom = 14)) %>% 
+              addProviderTiles('Esri.WorldImagery', group = "World Imagery", options = providerTileOptions(minZoom = 8, maxZoom = 17)) %>%
+              addTiles(group = "Open Street Map", options = providerTileOptions(minZoom = 8, maxZoom = 17)) %>% 
               fitBounds(bounds[1], bounds[2], bounds[3], bounds[4]) %>%
               
               addMapPane("bathymetry", zIndex = 400) %>%
@@ -888,10 +886,8 @@ server = function(input, output, session) {
       vis.cols <- c(name = NA_real_,
                     email = NA_real_,
                     phone = NA_real_,
-                    residence = NA_real_, 
                     postcode = NA_real_,
-                    gender = NA_real_,
-                    age = NA_real_)
+                    gender = NA_real_)
       
       # Get basic question answers (contact) ----
       print("metadata")
@@ -900,20 +896,23 @@ server = function(input, output, session) {
         dplyr::select(name,
                       email,
                       phone,
-                      residence,
+                      family,
                       postcode,
-                      gender,
-                      age) %>%
+                      gender) %>%
         mutate(userID = userID) %>%
         distinct() %>%
         mutate(source = urlsource) %>%
         glimpse() # working
       
+      if(input$family == "Other"){
+        metadata$family <- input$otherfamily
+      }
+      
       # Format activity and value answers ----
       print("activities")
       activities <- data %>%
         add_column(!!!vis.cols[!names(vis.cols) %in% names(.)]) %>%
-        dplyr::select(!c(name, email, phone, residence, postcode, gender, age)) %>%
+        dplyr::select(!c(name, email, phone, postcode, gender, family)) %>%
         distinct() %>%
         mutate(blank_activities = "blank") %>% # create a dummy column so gather works
         tidyr::gather(., "question", "answer", 1:ncol(.)) %>%
@@ -951,10 +950,9 @@ server = function(input, output, session) {
           name,
           email,
           phone,
-          residence,
           postcode,
+          family,
           gender,
-          age,
           userID,
           activity.or.value,
           category,
@@ -1068,7 +1066,7 @@ server = function(input, output, session) {
             on.10 <- on.10 %>% filter(Region %in% c(unique(regionlist()$id)))
             
             # Bigger number = more zoomed in
-            if(input[[paste0(plotname, "_zoom", sep = "")]] >= 14){
+            if(input[[paste0(plotname, "_zoom", sep = "")]] >= 14 & nrow(on.14) > 0){
               leafletProxy(
                 mapId = plotname, 
                 session = session) %>% 
@@ -1099,7 +1097,7 @@ server = function(input, output, session) {
                   overlayGroups = c("Depth", "Detailed labels"),
                   options = layersControlOptions(collapsed = FALSE))
               
-            } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 12) {
+            } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 12 & nrow(on.12) > 0) {
               
               leafletProxy(
                 mapId = plotname, 
@@ -1124,7 +1122,7 @@ server = function(input, output, session) {
                   overlayGroups = c("Depth", "Detailed labels"),
                   options = layersControlOptions(collapsed = FALSE))
               
-            } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 10) {
+            } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 10 & nrow(on.10) > 0) {
               
               leafletProxy(
                 mapId = plotname, 
@@ -1142,7 +1140,7 @@ server = function(input, output, session) {
                   overlayGroups = c("Depth", "Detailed labels"),
                   options = layersControlOptions(collapsed = FALSE))
               
-            } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 8) {
+            } else if(input[[paste0(plotname, "_zoom", sep = "")]] >= 8 & nrow(on.8) > 0) {
               
               leafletProxy(
                 mapId = plotname, 

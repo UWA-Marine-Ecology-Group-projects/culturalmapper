@@ -1,5 +1,5 @@
 </br>
-<p style = "text-align: center;"> <img src="https://images.squarespace-cdn.com/content/v1/5b60f1dcf2e6b1ee04e07deb/1588316875127-LWEO6HOS1YGCTIVL6CGI/Photo_Credit_Ocean_Imaging_Coastline_HopeSpot.JPG?format=750w" width="90%" />
+<p style = "text-align: center;"> <img src="ETNTAC.jpg" width="90%" />
 
 <h1><p style = "text-align: center;"><b></br>
 Welcome to the Marine Values Mapper for the South Coast</br>Esperance Tjaltrkraak Cultural Values</b></p></h1>
