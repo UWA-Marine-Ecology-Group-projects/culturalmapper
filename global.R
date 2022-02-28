@@ -38,6 +38,19 @@ library(dplyr) # load last to stop issues with plyr
 
 gs4_auth(cache = "secrets", email = TRUE)
 
+# Mongo database ----
+load("secrets/host.rda")
+load("secrets/username.rda")
+load("secrets/password.rda")
+
+options(mongodb = list(
+  "host" = host,
+  "username" = username,
+  "password" = password
+))
+
+databaseName <- "culturalresponses"
+
 ## Themes ----
 blank_theme <- theme_minimal()+
   theme(
@@ -250,6 +263,22 @@ appCSS <-
   "
 
 # FUNCTIONS ----
+saveData <- function(data, collection) {
+  # Connect to the database
+  db <- mongo(collection = collection,
+              url = sprintf(
+                "mongodb+srv://%s:%s@%s/%s",
+                options()$mongodb$username,
+                options()$mongodb$password,
+                options()$mongodb$host,
+                databaseName
+              ),
+              options = ssl_options(weak_cert_validation = TRUE))
+  # Insert the data into the mongo collection as a data.frame
+  # data <- as.data.frame(t(data))
+  db$insert(data)
+}
+
 # Function to add an asterisk to an input label
 labelMandatory <- function(label) {
   tagList(

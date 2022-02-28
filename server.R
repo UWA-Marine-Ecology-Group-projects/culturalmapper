@@ -869,7 +869,7 @@ server = function(input, output, session) {
         mutate(timezone = str_replace_all(Sys.timezone(), c("[^[:alnum:]]" = ".")))# %>% glimpse()
       
       # Write polygons to database ----
-      # saveData(clicks, "polygons")
+        saveData(clicks, "polygons")
 # 
 #       write.csv(x = clicks, file = file.path(polygonsdir, paste("polygons", fileName, sep = "_")),
 #                 row.names = FALSE, quote = TRUE)
@@ -966,7 +966,7 @@ server = function(input, output, session) {
         #glimpse()
       
       # Write answers to database ----
-      # saveData(data, "answers")
+      saveData(data, "answers")
       # 
       # write.csv(x = data, file = file.path(answersdir, paste("answers", fileName, sep = "_")),
       #           row.names = FALSE, quote = TRUE)
