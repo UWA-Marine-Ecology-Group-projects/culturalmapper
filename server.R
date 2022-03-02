@@ -984,13 +984,13 @@ server = function(input, output, session) {
       shinyalert(
         title = "Survey submitted",
         html = TRUE,
-        text = tagList(
-        "Thank you for providing information to inform the South Coast Marine Park planning process.",
-        br(), br(),
-        "For more information about the proposed South Coast Marine Park please follow ", 
-        tags$a(href="https://www.dbca.wa.gov.au/parks-and-wildlife-service/plan-for-our-parks/south-coast-marine-park", "this link"),
-        br(),br(),
-        "Should you have information identifying values on the South Coast that are not in a suitable format for input via this tool, please contact pscmp@dbca.wa.gov.au"),
+        # text = tagList(
+        # "Thank you for providing information to inform the South Coast Marine Park planning process.",
+        # br(), br(),
+        # "For more information about the proposed South Coast Marine Park please follow ", 
+        # tags$a(href="https://www.dbca.wa.gov.au/parks-and-wildlife-service/plan-for-our-parks/south-coast-marine-park", "this link"),
+        # br(),br(),
+        # "Should you have information identifying values on the South Coast that are not in a suitable format for input via this tool, please contact pscmp@dbca.wa.gov.au"),
         size = "s",
         closeOnEsc = FALSE,
         closeOnClickOutside = FALSE,

@@ -2,7 +2,7 @@
 <p style = "text-align: center;"> <img src="ETNTAC.jpg" width="90%" />
 
 <h1><p style = "text-align: center;"><b></br>
-Welcome to the Marine Values Mapper for the South Coast</br>Esperance Tjaltrkraak Cultural Values</b></p></h1>
+Welcome to the Marine Values Mapper for the South Coast</br>Esperance Tjaltjraak Cultural Values</b></p></h1>
 
 <h5><p style = "text-align: center;color:#9E9E9E"></br>
 This version of the Marine Values Mapper has been amended as a trial to record cultural heritage values for the sea country adjacent to and within the Esperance Tjaltjraak Native Title area. The Esperance Tjaltjraak Native Title Aboriginal Corporation (ETNTAC) may use information gathered through this tool to inform joint management planning for the south coast marine park. All information gathered using this tool remains the cultural and intellectual property of Esperance Nyungar traditional owners, no information will be used without the consent of ETNTAC.</br></br>
