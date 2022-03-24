@@ -90,8 +90,10 @@ Pressures and threats,Off Road Vehicles (e.g. 4WD),Damage caused (e.g tracks),Of
 Pressures and threats,Wildfire,Wildfire,Wildfire,8,6
 Pressures and threats,Weeds,Weeds,Weeds,8,7
 Pressures and threats,Rubbish - land based,Litter,Rubbish - land based - Litter,8,8
+Pressures and threats,Rubbish - marine based,Litter,Rubbish - marine based - Litter,8,9
 Pressures and threats,Rubbish - marine based,Nets and/or floats,Rubbish - marine based - Nets and/or floats,8,9
 Pressures and threats,Rubbish - marine based,Fishing tackle and bait bags,Rubbish - marine based - fishing tackle and bait bags,8,9
+Pressures and threats,Rubbish - marine based,Marine animal entanglement,Rubbish - marine based - Marine animal entanglement,8,9
 Pressures and threats,Inappropriate visitation,Culturally innappropriate/disrespectful visitation,Inappropriate visitation - Culturally innappropriate/disrespectful visitation,8,10
 Pressures and threats,Inappropriate visitation,Physical damage to areas,Inappropriate visitation - Physical damage to areas,8,10
 Pressures and threats,Inappropriate visitation,Graffiti,Inappropriate visitation - Graffiti,8,10
@@ -102,8 +104,15 @@ Pressures and threats,Water pollution - land based,Run-off from urban areas or f
 Pressures and threats,Water pollution - marine based,Fuel and oil,Water pollution - marine based - Fuel and oil,8,12
 Pressures and threats,Water pollution - marine based,Sewage,Water pollution - marine based - Sewage,8,12
 Pressures and threats,Water pollution - marine based,Anti-fouling paint and other chemicals,Water pollution - marine based - Anti-fouling paint and other chemicals,8,12
-Pressures and threats,Over-fishing,Over-fishing,Over-fishing,8,13
-Pressures and threats,Boating,Anchoring/propellor scour damage,Boating - Anchoring/propellor scour damage,8,14
-Pressures and threats,Boating,Speed/wake wash damage,Boating - Speed/wake wash damage,8,14
-Pressures and threats,Boating,Disturbing wildlife,Boating - Disturbing wildlife,8,14
-Pressures and threats,Boating,Boat strike to animals,Boating - Boat strike to animals,8,14
+Pressures and threats,Fishing,Commercial fishing,Fishing - Commercial fishing,8,13
+Pressures and threats,Fishing,Recreational fishing,Fishing - Recreational fishing,8,13
+Pressures and threats,Aquaculture,Land based (coastal),Aquaculture - Land based (coastal),8,14
+Pressures and threats,Aquaculture,Marine based,Aquaculture - Marine based,8,14
+Pressures and threats,Boating,Anchoring/propellor scour damage,Boating - Anchoring/propellor scour damage,8,15
+Pressures and threats,Boating,Speed/wake wash damage,Boating - Speed/wake wash damage,8,15
+Pressures and threats,Boating,Disturbing wildlife,Boating - Disturbing wildlife,8,15
+Pressures and threats,Boating,Boat strike to animals,Boating - Boat strike to animals,8,15
+Pressures and threats,Introduced marine pests,Introduced marine pests,Introduced marine pests - Introduced marine pests,8,16
+Pressures and threats,Introduced/domestic animals,Damage through trampling or erosion,Introduced/domestic animals - Damage through trampling or erosion,8,17
+Pressures and threats,Introduced/domestic animals,Pollution,Introduced/domestic animals - Pollution,8,17
+Pressures and threats,Introduced/domestic animals,Predation or disturbance to wildlife,Introduced/domestic animals - Predation or disturbance to wildlife,8,17
