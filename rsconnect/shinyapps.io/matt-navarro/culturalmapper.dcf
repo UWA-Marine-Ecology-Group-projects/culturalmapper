@@ -5,9 +5,9 @@ account: matt-navarro
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5654853
-bundleId: 5631044
+bundleId: 5720245
 url: https://marine-ecology.shinyapps.io/culturalmapper/
-when: 1646181400.01284
-lastSyncTime: 1646181400.01284
+when: 1648086549.88857
+lastSyncTime: 1648086549.88857
 asMultiple: FALSE
 asStatic: FALSE
