@@ -82,14 +82,14 @@ cultural_list <- cultural_values %>%
   tidyr::replace_na(list(c(Category = "NA"))) %>%
   dplyr::mutate(input.suffix = if_else(is.na(Activity), paste(tolower(Category), tolower(Sub.category), "NA", sep = "__"), paste(tolower(Category), tolower(Sub.category), tolower(Activity), sep = "__"))) %>%
   dplyr::mutate(days = paste("days__values",input.suffix, sep = "__")) %>%
-  dplyr::mutate(time = paste("time__values",input.suffix, sep = "__")) %>%
+  dplyr::mutate(season = paste("season__values",input.suffix, sep = "__")) %>%
   dplyr::mutate(description = paste("description__values",input.suffix, sep = "__"))
 
 days_inputs <- (unique(cultural_list$days))
-time_inputs <- (unique(cultural_list$time))
+season_inputs <- (unique(cultural_list$season))
 description_inputs <- (unique(cultural_list$description))
 
-cultural_input_list <- c(days_inputs, time_inputs, description_inputs)
+cultural_input_list <- c(days_inputs, season_inputs, description_inputs)
 
 # Create a list of the subcategories for the accordion ----
 cultural_acc <- cultural_values %>%

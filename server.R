@@ -770,6 +770,8 @@ server = function(input, output, session) {
           
           title <- unique(dat$nice.title)
           
+          title <- str_replace_all(title, "- NA", "")
+          
           simple.title <-  tolower(unique(dat$nice.act))
           
           category <- unique(dat$category)
@@ -782,6 +784,10 @@ server = function(input, output, session) {
             paste("description__values", category, subcategory, activity, sep = "__") %>%
             glimpse()
           
+          print("season name")
+          seasonname <- paste("season__values", category, subcategory, activity, sep = "__") %>%
+            glimpse()
+          
           plotname <-
             paste("plot_values", category, subcategory, activity,  sep = "_")
           
@@ -790,6 +796,20 @@ server = function(input, output, session) {
             status = "primary",
             solidHeader = TRUE,
             width = 12,
+            
+            checkboxGroupInput(
+              seasonname,
+              label = labelMandatory("In what season(s) is this important/does this occur?"),
+              choices = c(          'Birak (December, January)',
+                                    'Bunuru (February, March)',
+                                    'Djeran (April, May)',
+                                    'Makuru (June, July)',
+                                    'Djilba (August, September)',
+                                    'Kambarang (October, November)',
+                                    'All seasons'),
+              selected = character(0)
+            ),
+            
             textAreaInput(
               descriptionname,
               width = "94%",
@@ -799,7 +819,7 @@ server = function(input, output, session) {
               placeholder = NULL,
               height = "200px"
             ),
-            
+
             h4(strong(paste(
               "Please click on the areas important for the ",
               simple.title, " you would like to report on. All cells are 2.5 km wide at the widest point.",
@@ -931,10 +951,34 @@ server = function(input, output, session) {
         dplyr::filter(!answer%in%c("blank")) %>%
         glimpse()
       
+      season.cols <- c(
+        'Birak (December, January)' = NA_real_,
+        'Bunuru (February, March)' = NA_real_,
+        'Djeran (April, May)' = NA_real_,
+        'Makuru (June, July)' = NA_real_,
+        'Djilba (August, September)' = NA_real_,
+        'Kambarang (October, November)' = NA_real_,
+        'All seasons' = NA_real_
+      )
+      
+      print("seasons")
+      
+      seasons <- activities %>%
+        dplyr::filter(question %in% c("season")) %>%
+        dplyr::mutate(value = "TRUE") %>%
+        distinct() %>%
+        tidyr::spread(., answer, value) %>%
+        mutate(userID = userID) %>%
+        dplyr::select(-c(question)) %>%
+        add_column(!!!season.cols[!names(season.cols) %in% names(.)]) %>%
+        glimpse()
+      
       activities <- activities %>%
+        dplyr::filter(!question %in% c("season")) %>%
         distinct() %>%
         tidyr::spread(., question, answer) %>%
         mutate(userID = userID) %>%
+        dplyr::left_join(., seasons) %>%
         glimpse()
       
       q.cols <- c(activity.or.value = NA_real_, 
@@ -959,6 +1003,13 @@ server = function(input, output, session) {
           subcategory,
           activity,
           description,
+          'Birak (December, January)',
+          'Bunuru (February, March)',
+          'Djeran (April, May)',
+          'Makuru (June, July)',
+          'Djilba (August, September)',
+          'Kambarang (October, November)',
+          'All seasons',
           source
         ) %>%
         mutate(time = humanTime()) %>%
